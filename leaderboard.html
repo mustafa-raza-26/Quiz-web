@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>QuizFlow | Global Leaderboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#8083ff",
+                        "inverse-on-surface": "#283044",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#f0dbff",
+                        "on-secondary-container": "#d6a9ff",
+                        "surface-container-low": "#131b2e",
+                        "outline-variant": "#464554",
+                        "surface": "#0b1326",
+                        "on-surface-variant": "#c7c4d7",
+                        "on-tertiary-container": "#570032",
+                        "secondary-container": "#6f00be",
+                        "surface-bright": "#31394d",
+                        "on-secondary-fixed": "#2c0051",
+                        "on-error": "#690005",
+                        "on-primary-container": "#0d0096",
+                        "on-tertiary-fixed-variant": "#8c0053",
+                        "surface-container-high": "#222a3d",
+                        "on-primary": "#1000a9",
+                        "on-primary-fixed": "#07006c",
+                        "inverse-primary": "#494bd6",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#dae2fd",
+                        "primary": "#c0c1ff",
+                        "error": "#ffb4ab",
+                        "background": "#0b1326",
+                        "surface-dim": "#0b1326",
+                        "tertiary": "#ffb0cd",
+                        "tertiary-container": "#f751a1",
+                        "on-tertiary-fixed": "#3e0022",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "surface-container": "#171f33",
+                        "on-tertiary": "#640039",
+                        "secondary": "#ddb7ff",
+                        "outline": "#908fa0",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "inverse-surface": "#dae2fd",
+                        "surface-variant": "#2d3449",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container-lowest": "#060e20",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "on-secondary": "#490080",
+                        "tertiary-fixed": "#ffd9e4",
+                        "surface-tint": "#c0c1ff",
+                        "on-surface": "#dae2fd",
+                        "primary-fixed": "#e1e0ff",
+                        "tertiary-fixed-dim": "#ffb0cd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "stack-lg": "48px",
+                        "stack-sm": "8px",
+                        "stack-md": "24px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(23, 31, 51, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-card-hover:hover {
+            border-color: rgba(192, 193, 255, 0.3);
+            background: rgba(23, 31, 51, 0.6);
+            transform: translateY(-2px);
+            transition: all 0.2s ease-out;
+        }
+
+        .rank-gold {
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .rank-silver {
+            color: #C0C0C0;
+            text-shadow: 0 0 10px rgba(192, 192, 192, 0.3);
+        }
+
+        .rank-bronze {
+            color: #CD7F32;
+            text-shadow: 0 0 10px rgba(205, 127, 50, 0.3);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(192, 193, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .animated-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        .user-highlight {
+            background: linear-gradient(90deg, rgba(128, 131, 255, 0.15) 0%, rgba(128, 131, 255, 0.05) 100%);
+            border-left: 4px solid #c0c1ff;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- TopNavBar -->
+    <header
+        class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_32px_rgba(99,102,241,0.15)]">
+        <div class="flex justify-between items-center h-20 px-gutter max-w-container-max mx-auto">
+            <div
+                class="text-headline-md font-headline-md font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                QuizFlow
+            </div>
+            <nav class="hidden md:flex items-center gap-stack-md">
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
+                    href="./index.html">Dashboard</a>
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
+                    href="./categories.html">Categories</a>
+                <a class="text-primary font-bold relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary after:shadow-[0_0_8px_#8083ff] font-body-lg text-body-lg"
+                    href="#">Leaderboard</a>
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
+                    href="#">Settings</a>
+            </nav>
+            <div class="flex items-center gap-stack-sm">
+                <button
+                    class="p-2 hover:bg-white/5 transition-all duration-200 rounded-full text-on-surface-variant active:scale-95">
+                    <span class="material-symbols-outlined">dark_mode</span>
+                </button>
+                <button
+                    class="p-2 hover:bg-white/5 transition-all duration-200 rounded-full text-on-surface-variant active:scale-95">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <div
+                    class="w-10 h-10 rounded-full border-2 border-primary/30 overflow-hidden ml-2 cursor-pointer hover:border-primary transition-all">
+                    <img class="w-full h-full object-cover"
+                        data-alt="A professional and sleek close-up profile portrait of a modern tech user, smiling confidently, with soft cinematic lighting and a vibrant neon-accented background that matches a dark-mode premium aesthetic. The user has a contemporary style, and the overall image quality is hyper-realistic with sharp focus."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVHBnqitnrcr6oHirjpXy0Er7IiKdaataY54aLgipImYSRQax2zkshYn4DfR_r08SqCy7SKrSY2_kG2nFKDyCEE-HhvKhJibZtAs87EKtjMXtDaofqfUNVVg0L7VMZ_APorAKicxHRYZ_RBPVRlD4_ZjrmBJyBWB-pnH0uJqtWqTOgvsdMxSak74B_rlqxyOGG9w8W_uS0kZJo0iNwvybmkyFOoATH1ntk8eV5-DX4B78EAm2gUSs" />
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="flex-grow pt-32 pb-16 px-gutter max-w-container-max mx-auto w-full">
+        <!-- Hero & Stats Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-stack-md mb-stack-lg">
+            <div class="lg:col-span-8 flex flex-col justify-center">
+                <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-4">
+                    Global <span class="text-primary">Hall of Fame</span>
+                </h1>
+                <p class="font-body-lg text-on-surface-variant max-w-2xl">
+                    Behold the intellectual elite. These grandmasters have conquered the most challenging modules and
+                    secured their places in history.
+                </p>
+            </div>
+            <div class="lg:col-span-4 glass-panel p-stack-md rounded-xl flex items-center justify-between">
+                <div>
+                    <span class="font-label-caps text-on-surface-variant block mb-1">YOUR RANKING</span>
+                    <div class="font-headline-md text-primary text-3xl" id="your-rank">—</div>
+                    <span class="text-body-sm text-on-surface-variant" id="your-rank-sub">Play a quiz to get ranked</span>
+                </div>
+                <div
+                    class="h-16 w-16 rounded-full bg-primary-container/20 flex items-center justify-center border border-primary/20">
+                    <span class="material-symbols-outlined text-primary text-4xl"
+                        style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                </div>
+            </div>
+        </div>
+        <!-- Controls Section -->
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-stack-md">
+            <div class="relative w-full md:w-96 group">
+                <span
+                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">search</span>
+                <input
+                    class="w-full bg-white/5 border border-white/10 rounded-full py-3 pl-12 pr-4 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all font-body-sm text-on-surface"
+                    placeholder="Search friends or rank..." type="text" />
+            </div>
+            <div class="flex items-center gap-stack-sm w-full md:w-auto">
+                <button
+                    class="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 border border-error/30 text-error rounded-full font-label-caps hover:bg-error/10 transition-all active:scale-95"
+                    id="clear-btn">
+                    <span class="material-symbols-outlined text-[18px]">delete_sweep</span>
+                    Clear Leaderboard
+                </button>
+                <div class="hidden md:flex items-center gap-2 p-1 bg-white/5 rounded-full border border-white/10">
+                    <button class="px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-caps text-[11px]">ALL
+                        TIME</button>
+                    <button
+                        class="px-4 py-1.5 rounded-full text-on-surface-variant font-label-caps text-[11px] hover:text-on-surface">WEEKLY</button>
+                </div>
+            </div>
+        </div>
+        <!-- Leaderboard Table -->
+        <div class="glass-panel rounded-xl overflow-hidden mb-stack-md">
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-white/5 bg-white/5">
+                            <th class="px-6 py-4 font-label-caps text-on-surface-variant">Rank</th>
+                            <th class="px-6 py-4 font-label-caps text-on-surface-variant">User</th>
+                            <th class="px-6 py-4 font-label-caps text-on-surface-variant">Score</th>
+                            <th class="px-6 py-4 font-label-caps text-on-surface-variant">Accuracy</th>
+                            <th class="px-6 py-4 font-label-caps text-on-surface-variant text-right">Date Achieved</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5 font-body-sm" id="leaderboard-body"></tbody>
+                </table>
+            </div>
+            <div class="p-6 bg-white/2 border-t border-white/5 flex justify-center">
+                <button class="text-primary hover:text-white transition-colors font-label-caps flex items-center gap-2">
+                    Show More Global Rankings
+                    <span class="material-symbols-outlined">expand_more</span>
+                </button>
+            </div>
+        </div>
+        <!-- Brag Section -->
+        <div
+            class="glass-panel p-stack-md rounded-xl flex flex-col md:flex-row items-center justify-between gap-stack-md border-primary/20 bg-primary/5">
+            <div class="text-center md:text-left">
+                <h3 class="font-headline-md mb-1">Satisfied with your rank?</h3>
+                <p class="text-on-surface-variant font-body-sm">Share your achievement with the world and challenge your
+                    friends.</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <button
+                    class="w-12 h-12 rounded-full bg-[#1DA1F2] flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg">
+                    <svg class="w-6 h-6 fill-current" viewbox="0 0 24 24">
+                        <path
+                            d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z">
+                        </path>
+                    </svg>
+                </button>
+                <button
+                    class="w-12 h-12 rounded-full bg-[#4267B2] flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg">
+                    <svg class="w-6 h-6 fill-current" viewbox="0 0 24 24">
+                        <path
+                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z">
+                        </path>
+                    </svg>
+                </button>
+                <button
+                    class="w-12 h-12 rounded-full bg-[#0077B5] flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg">
+                    <svg class="w-6 h-6 fill-current" viewbox="0 0 24 24">
+                        <path
+                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z">
+                        </path>
+                    </svg>
+                </button>
+                <button
+                    class="flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-full font-label-caps hover:translate-y-[-2px] hover:shadow-[0_8px_20px_rgba(128,131,255,0.4)] transition-all active:scale-95">
+                    <span class="material-symbols-outlined text-[18px]">share</span>
+                    Brag Now
+                </button>
+            </div>
+        </div>
+    </main>
+    <!-- Confirmation Modal (Hidden by default) -->
+    <div class="fixed inset-0 z-[100] flex items-center justify-center p-gutter hidden" id="clear-modal">
+        <div class="absolute inset-0 bg-surface/80 backdrop-blur-md"></div>
+        <div class="glass-panel relative w-full max-w-md p-stack-lg rounded-2xl animate-in zoom-in-95 duration-200">
+            <div
+                class="w-16 h-16 rounded-full bg-error/10 text-error flex items-center justify-center mx-auto mb-stack-md">
+                <span class="material-symbols-outlined text-4xl">warning</span>
+            </div>
+            <h2 class="font-headline-md text-center mb-2">Reset Global History?</h2>
+            <p class="text-on-surface-variant text-center font-body-sm mb-stack-md">
+                This will clear the cached global rankings for your session. This action cannot be undone. Are you sure
+                you want to proceed?
+            </p>
+            <div class="flex gap-4">
+                <button
+                    class="flex-1 py-3 px-6 rounded-xl border border-white/10 font-label-caps hover:bg-white/5 transition-colors"
+                    id="cancel-clear">Cancel</button>
+                <button
+                    class="flex-1 py-3 px-6 rounded-xl bg-error text-white font-label-caps hover:bg-error-container transition-colors active:scale-95"
+                    id="confirm-clear">Yes, Reset</button>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="w-full py-stack-lg mt-auto bg-surface-container-lowest/80 backdrop-blur-md border-t border-white/5">
+        <div
+            class="max-w-container-max mx-auto px-gutter flex flex-col md:flex-row justify-between items-center gap-stack-md">
+            <div class="flex flex-col gap-2 items-center md:items-start">
+                <div class="text-body-lg font-bold text-primary">QuizFlow Premium</div>
+                <div class="font-body-sm text-body-sm text-on-surface-variant">© 2024 QuizFlow Premium. Elevate your
+                    intellect.</div>
+            </div>
+            <div class="flex gap-stack-md">
+                <a class="text-on-surface-variant hover:text-tertiary transition-colors duration-200 font-body-sm text-body-sm"
+                    href="#">Privacy Policy</a>
+                <a class="text-on-surface-variant hover:text-tertiary transition-colors duration-200 font-body-sm text-body-sm"
+                    href="#">Terms of Service</a>
+                <a class="text-on-surface-variant hover:text-tertiary transition-colors duration-200 font-body-sm text-body-sm"
+                    href="#">Contact Us</a>
+                <a class="text-on-surface-variant hover:text-tertiary transition-colors duration-200 font-body-sm text-body-sm"
+                    href="#">Help Center</a>
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="leaderboard.js"></script>
+    <script>
+        // Search filter (works on whatever rows leaderboard.js has rendered)
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#leaderboard-body tr');
+            rows.forEach(row => {
+                const name = row.textContent.toLowerCase();
+                row.style.display = name.includes(term) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>QuizFlow - Assessment</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#8083ff",
+                        "inverse-on-surface": "#283044",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#f0dbff",
+                        "on-secondary-container": "#d6a9ff",
+                        "surface-container-low": "#131b2e",
+                        "outline-variant": "#464554",
+                        "surface": "#0b1326",
+                        "on-surface-variant": "#c7c4d7",
+                        "on-tertiary-container": "#570032",
+                        "secondary-container": "#6f00be",
+                        "surface-bright": "#31394d",
+                        "on-secondary-fixed": "#2c0051",
+                        "on-error": "#690005",
+                        "on-primary-container": "#0d0096",
+                        "on-tertiary-fixed-variant": "#8c0053",
+                        "surface-container-high": "#222a3d",
+                        "on-primary": "#1000a9",
+                        "on-primary-fixed": "#07006c",
+                        "inverse-primary": "#494bd6",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#dae2fd",
+                        "primary": "#c0c1ff",
+                        "error": "#ffb4ab",
+                        "background": "#0b1326",
+                        "surface-dim": "#0b1326",
+                        "tertiary": "#ffb0cd",
+                        "tertiary-container": "#f751a1",
+                        "on-tertiary-fixed": "#3e0022",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "surface-container": "#171f33",
+                        "on-tertiary": "#640039",
+                        "secondary": "#ddb7ff",
+                        "outline": "#908fa0",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "inverse-surface": "#dae2fd",
+                        "surface-variant": "#2d3449",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container-lowest": "#060e20",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "on-secondary": "#490080",
+                        "tertiary-fixed": "#ffd9e4",
+                        "surface-tint": "#c0c1ff",
+                        "on-surface": "#dae2fd",
+                        "primary-fixed": "#e1e0ff",
+                        "tertiary-fixed-dim": "#ffb0cd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "stack-lg": "48px",
+                        "stack-sm": "8px",
+                        "stack-md": "24px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-panel {
+            background: rgba(23, 31, 51, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+        }
+
+        .option-tile {
+            transition: all 200ms ease-out;
+        }
+
+        .option-tile:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(192, 193, 255, 0.3);
+        }
+
+        .option-tile:active {
+            transform: scale(0.98);
+        }
+
+        .selected-tile {
+            background: linear-gradient(135deg, rgba(128, 131, 255, 0.1), rgba(111, 0, 190, 0.1));
+            border-color: #c0c1ff !important;
+            box-shadow: 0 0 15px rgba(192, 193, 255, 0.2);
+        }
+
+        @keyframes pulse-timer {
+            0% {
+                transform: scale(1);
+                color: #dae2fd;
+            }
+
+            50% {
+                transform: scale(1.1);
+                color: #ffb4ab;
+            }
+
+            100% {
+                transform: scale(1);
+                color: #dae2fd;
+            }
+        }
+
+        .timer-pulse {
+            animation: pulse-timer 1s infinite ease-in-out;
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple-effect {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col font-body-lg text-body-lg">
+    <!-- Top Navigation Shell (Fixed Header) -->
+    <header
+        class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_32px_rgba(99,102,241,0.15)]">
+        <div class="max-w-container-max mx-auto px-gutter h-20 flex flex-col justify-center">
+            <div class="flex justify-between items-center w-full mb-2">
+                <div class="flex items-center gap-4">
+                    <span
+                        class="text-headline-md font-headline-md font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">QuizFlow</span>
+                    <div class="hidden md:flex h-6 w-px bg-white/10 mx-2"></div>
+                    <span
+                        class="hidden md:block font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest"
+                        id="topic-label">Loading Quiz</span>
+                </div>
+                <div class="flex items-center gap-6">
+                    <!-- Countdown Timer -->
+                    <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"
+                        id="timer-container">
+                        <span class="material-symbols-outlined text-primary" style="font-size: 20px;">timer</span>
+                        <span class="font-bold tabular-nums min-w-[2.5rem] text-center" id="countdown">00:30</span>
+                    </div>
+                    <a href="./categories.html"
+                        class="p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95">
+                        <span class="material-symbols-outlined text-on-surface-variant">close</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Progress Bar -->
+            <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                <div id="progress-bar"
+                    class="h-full bg-gradient-to-r from-primary to-secondary w-0 shadow-[0_0_8px_#8083ff] transition-all duration-500">
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="flex-grow flex flex-col items-center justify-center pt-32 pb-12 px-gutter">
+        <div class="w-full max-w-3xl slide-in" id="quiz-view">
+            <!-- Question Metadata -->
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                    <span
+                        class="font-label-caps text-label-caps text-primary uppercase tracking-widest block mb-1">Current
+                        Progress</span>
+                    <h2 class="font-headline-md text-headline-md" id="progress-label">Question 1 of 10</h2>
+                </div>
+                <div class="text-right">
+                    <span
+                        class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest block mb-1">Difficulty</span>
+                    <span
+                        class="px-3 py-1 rounded-full bg-tertiary/10 text-tertiary text-sm font-bold border border-tertiary/20"
+                        id="difficulty-badge">—</span>
+                </div>
+            </div>
+            <!-- Question Card -->
+            <div class="glass-panel rounded-xl p-stack-md md:p-stack-lg mb-stack-md">
+                <p class="font-headline-md text-headline-md mb-stack-md leading-relaxed" id="question-text">
+                    Loading question&hellip;
+                </p>
+                <!-- Options Grid -->
+                <div class="grid grid-cols-1 gap-4" id="options-container"></div>
+            </div>
+            <!-- Control Buttons -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex gap-4 w-full md:w-auto">
+                    <button id="prev-btn"
+                        class="flex-1 md:flex-none px-6 py-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all font-bold flex items-center justify-center gap-2 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        Previous
+                    </button>
+                    <button id="skip-btn"
+                        class="flex-1 md:flex-none px-6 py-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all font-bold flex items-center justify-center gap-2 active:scale-95">
+                        Skip
+                        <span class="material-symbols-outlined">fast_forward</span>
+                    </button>
+                </div>
+                <button id="next-btn"
+                    class="w-full md:w-auto px-10 py-3 rounded-lg bg-gradient-to-r from-primary to-secondary text-on-primary font-bold shadow-[0_4px_20px_rgba(128,131,255,0.4)] hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(128,131,255,0.5)] transition-all flex items-center justify-center gap-2 active:scale-95">
+                    <span id="next-btn-label">Next Question</span>
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+        <!-- Results View (shown after the quiz finishes) -->
+        <div class="w-full max-w-2xl hidden" id="results-view">
+            <div class="glass-panel rounded-[32px] p-stack-lg text-center">
+                <div class="w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-6">
+                    <span class="material-symbols-outlined text-primary text-5xl" id="results-icon">emoji_events</span>
+                </div>
+                <span class="font-label-caps text-label-caps text-primary uppercase tracking-widest block mb-2" id="results-topic">Quiz Complete</span>
+                <h1 class="font-display-lg-mobile text-display-lg-mobile mb-3" id="results-headline">Nice work!</h1>
+                <p class="text-on-surface-variant mb-stack-md" id="results-subtext">Here's how you did.</p>
+
+                <div class="flex items-center justify-center gap-3 mb-stack-md">
+                    <span class="font-display-lg text-display-lg-mobile bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent" id="results-score">0</span>
+                    <span class="text-on-surface-variant text-body-lg">pts</span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4 mb-stack-md">
+                    <div class="glass-card rounded-xl p-4">
+                        <div class="text-2xl font-extrabold text-green-400" id="results-correct">0</div>
+                        <div class="text-label-caps text-on-surface-variant uppercase tracking-widest mt-1">Correct</div>
+                    </div>
+                    <div class="glass-card rounded-xl p-4">
+                        <div class="text-2xl font-extrabold text-error" id="results-wrong">0</div>
+                        <div class="text-label-caps text-on-surface-variant uppercase tracking-widest mt-1">Wrong</div>
+                    </div>
+                    <div class="glass-card rounded-xl p-4">
+                        <div class="text-2xl font-extrabold text-on-surface-variant" id="results-skipped">0</div>
+                        <div class="text-label-caps text-on-surface-variant uppercase tracking-widest mt-1">Skipped</div>
+                    </div>
+                </div>
+
+                <div class="w-full h-2 bg-white/5 rounded-full overflow-hidden mb-2">
+                    <div class="h-full bg-gradient-to-r from-primary to-secondary" id="results-accuracy-bar" style="width: 0%"></div>
+                </div>
+                <p class="text-body-sm text-on-surface-variant mb-stack-md"><span id="results-accuracy">0</span>% accuracy</p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="./categories.html"
+                        class="px-8 py-4 rounded-full font-bold border border-white/20 hover:bg-white/5 backdrop-blur-md transition-all ripple text-on-surface text-center">
+                        Try Another Category
+                    </a>
+                    <a href="./leaderboard.html?justFinished=1"
+                        class="px-8 py-4 rounded-full font-bold bg-gradient-to-r from-primary to-secondary text-on-primary hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(128,131,255,0.4)] transition-all ripple text-center flex items-center justify-center gap-2">
+                        View Leaderboard
+                        <span class="material-symbols-outlined">trending_up</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer Motivational Quote -->
+    <footer class="w-full py-stack-md bg-surface-container-lowest/80 backdrop-blur-md border-t border-white/5">
+        <div class="max-w-container-max mx-auto px-gutter text-center">
+            <p class="italic text-on-surface-variant font-body-sm text-body-sm max-w-lg mx-auto">
+                "The only way to learn a new programming language is by writing programs in it." — Dennis Ritchie
+            </p>
+            <p class="mt-2 text-primary font-bold text-body-sm">QuizFlow Premium • Elevate your intellect.</p>
+        </div>
+    </footer>
+    <script type="module" src="test.js"></script>
+</body>
+
+</html>

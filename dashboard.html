@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>QuizFlow | Master Your Mind</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;family=Poppins:wght@300;400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#8083ff",
+                        "inverse-on-surface": "#283044",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#f0dbff",
+                        "on-secondary-container": "#d6a9ff",
+                        "surface-container-low": "#131b2e",
+                        "outline-variant": "#464554",
+                        "surface": "#0b1326",
+                        "on-surface-variant": "#c7c4d7",
+                        "on-tertiary-container": "#570032",
+                        "secondary-container": "#6f00be",
+                        "surface-bright": "#31394d",
+                        "on-secondary-fixed": "#2c0051",
+                        "on-error": "#690005",
+                        "on-primary-container": "#0d0096",
+                        "on-tertiary-fixed-variant": "#8c0053",
+                        "surface-container-high": "#222a3d",
+                        "on-primary": "#1000a9",
+                        "on-primary-fixed": "#07006c",
+                        "inverse-primary": "#494bd6",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#dae2fd",
+                        "primary": "#c0c1ff",
+                        "error": "#ffb4ab",
+                        "background": "#0b1326",
+                        "surface-dim": "#0b1326",
+                        "tertiary": "#ffb0cd",
+                        "tertiary-container": "#f751a1",
+                        "on-tertiary-fixed": "#3e0022",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "surface-container": "#171f33",
+                        "on-tertiary": "#640039",
+                        "secondary": "#ddb7ff",
+                        "outline": "#908fa0",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "inverse-surface": "#dae2fd",
+                        "surface-variant": "#2d3449",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container-lowest": "#060e20",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "on-secondary": "#490080",
+                        "tertiary-fixed": "#ffd9e4",
+                        "surface-tint": "#c0c1ff",
+                        "on-surface": "#dae2fd",
+                        "primary-fixed": "#e1e0ff",
+                        "tertiary-fixed-dim": "#ffb0cd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "stack-lg": "48px",
+                        "stack-sm": "8px",
+                        "stack-md": "24px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Poppins", "sans-serif"],
+                        "display-lg-mobile": ["Poppins", "sans-serif"],
+                        "display-lg": ["Poppins", "sans-serif"],
+                        "headline-md": ["Poppins", "sans-serif"],
+                        "body-sm": ["Poppins", "sans-serif"],
+                        "label-caps": ["Poppins", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-background text-on-surface font-body-lg min-h-screen flex flex-col selection:bg-primary/30">
+    <!-- Full-screen Shader Background -->
+    <div class="fixed inset-0 z-0">
+        <!-- STITCH_SHADER_START:ANIMATION_3 class="absolute inset-0 w-full h-full opacity-60" -->
+        <div class="absolute inset-0 w-full h-full opacity-60" style="display:block;">
+            <canvas id="shader-canvas-ANIMATION_3" style="display:block;width:100%;height:100%"></canvas>
+        </div>
+        <!-- STITCH_SHADER_END:ANIMATION_3 -->
+    </div>
+    <!-- Navigation Bar -->
+    <header
+        class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_32px_rgba(99,102,241,0.15)]">
+        <div class="flex justify-between items-center h-20 px-gutter max-w-container-max mx-auto">
+            <!-- Brand Logo -->
+            <a class="text-headline-md font-headline-md font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent ripple px-2 py-1 rounded-lg"
+                href="#">
+                QuizFlow
+            </a>
+            <!-- Desktop Links -->
+            <nav class="hidden md:flex items-center gap-8">
+                <a class="text-primary font-bold relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary after:shadow-[0_0_8px_#8083ff]"
+                    href="#">Dashboard</a>
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200"
+                    href="./categories.html">Categories</a>
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200"
+                    href="./leaderboard.html">Leaderboard</a>
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200"
+                    href="#">Settings</a>
+            </nav>
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <button
+                    class="p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95 text-on-surface-variant hover:text-primary"
+                    onclick="toggleTheme()">
+                    <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+                </button>
+                <button
+                    class="p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95 text-on-surface-variant hover:text-primary">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <div
+                    class="w-10 h-10 rounded-full border-2 border-primary/30 overflow-hidden cursor-pointer hover:scale-105 transition-transform">
+                    <img class="w-full h-full object-cover"
+                        data-alt="A polished professional close-up headshot of a diverse young tech professional with warm lighting, set against a blurred modern office background with neon purple and blue accents, matching the QuizFlow premium glassmorphism brand identity."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKzB1xwoee3rt9joi_-9Uw46Trpefa6IGIeTHR7vZ5GCEh-YdWfc91-Lj32Pkckb8Ug9EcxsFqCoI5Wr87xp8P1C5i4c7sEL8nMLvWpSZfnIl1uQ4y0PKweUqLbPMW_jxYJ-0bT7qmq5WHOqKkFxOdVmyvIj-1XLpHmb21hVB0MX9UuwOYyPE80WX5WyfDWP9yoCK1mAH9IE89YsAG1H8ZLDqmKeN3KeFxBI0-LdJxJ6uekmyaK14" />
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main class="relative z-10 flex-grow pt-20">
+        <!-- Hero Section -->
+        <section
+            class="min-h-[85vh] flex flex-col items-center justify-center text-center px-gutter py-stack-lg max-w-4xl mx-auto">
+            <div
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary mb-8 animate-fade-in">
+                <span class="material-symbols-outlined text-[18px]">verified</span>
+                <span class="text-label-caps uppercase tracking-widest font-bold">Intelligence Platform v2.0</span>
+            </div>
+            <h1
+                class="font-display-lg text-display-lg md:text-[80px] leading-tight mb-6 bg-gradient-to-br from-white via-on-background to-primary-container bg-clip-text text-transparent">
+                Master Your Mind
+            </h1>
+            <p class="text-body-lg text-on-surface-variant max-w-2xl mb-10 leading-relaxed">
+                Elevate your intellect through personalized daily challenges and data-driven learning paths. Join a
+                community of over 1 million lifelong learners competing for global intellectual dominance.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6">
+                <a href="./categories.html"
+                    class="gradient-glow-btn px-10 py-5 rounded-full font-bold text-lg text-white ripple flex items-center gap-3 justify-center">
+                    Start Quiz
+                    <span class="material-symbols-outlined">bolt</span>
+                </a>
+                <a href="./categories.html"
+                    class="px-10 py-5 rounded-full font-bold text-lg border border-white/20 hover:bg-white/5 backdrop-blur-md transition-all ripple text-on-surface text-center">
+                    Explore Categories
+                </a>
+            </div>
+            <!-- Stats Bar -->
+            <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 w-full max-w-container-max mx-auto px-gutter">
+                <div class="flex flex-col items-center">
+                    <span class="text-3xl font-extrabold text-primary">500k+</span>
+                    <span class="text-body-sm text-on-surface-variant uppercase tracking-tighter">Active Quizzes</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-3xl font-extrabold text-secondary">2.4M</span>
+                    <span class="text-body-sm text-on-surface-variant uppercase tracking-tighter">Daily Questions</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-3xl font-extrabold text-tertiary">150+</span>
+                    <span class="text-body-sm text-on-surface-variant uppercase tracking-tighter">Experts</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-3xl font-extrabold text-primary-container">Top 1%</span>
+                    <span class="text-body-sm text-on-surface-variant uppercase tracking-tighter">Leaderboard
+                        Rewards</span>
+                </div>
+            </div>
+        </section>
+        <!-- Features Bento Grid -->
+        <section class="px-gutter py-stack-lg max-w-container-max mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <!-- Large Feature Card -->
+                <div
+                    class="md:col-span-7 glass-card p-stack-md rounded-[32px] transition-all duration-300 group overflow-hidden relative min-h-[400px] flex flex-col justify-end">
+                    <div class="absolute top-0 right-0 p-8">
+                        <span
+                            class="material-symbols-outlined text-[64px] text-primary opacity-20 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500">trophy</span>
+                    </div>
+                    <div class="relative z-10">
+                        <span class="text-label-caps text-primary font-bold mb-4 block">Competitions</span>
+                        <h3 class="text-headline-md mb-3 font-extrabold">Real-time Leaderboard</h3>
+                        <p class="text-on-surface-variant mb-6 max-w-md">Climb the ranks and earn unique badges. Every
+                            second counts as you battle against top thinkers worldwide in live knowledge sprints.</p>
+                        <a href="./leaderboard.html"
+                            class="text-primary font-bold flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                            View Rankings <span class="material-symbols-outlined">trending_up</span>
+                        </a>
+                    </div>
+                    <!-- Visual Decor -->
+                    <div
+                        class="absolute -bottom-10 -right-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all">
+                    </div>
+                </div>
+                <!-- Secondary Cards -->
+                <div class="md:col-span-5 flex flex-col gap-6">
+                    <div class="glass-card p-8 rounded-[32px] transition-all duration-300 hover:bg-white/5">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center text-secondary mb-4">
+                            <span class="material-symbols-outlined">psychology</span>
+                        </div>
+                        <h3 class="text-headline-md mb-2 font-bold">Adaptive Difficulty</h3>
+                        <p class="text-on-surface-variant text-body-sm">Our neural engine tailors questions to your
+                            exact skill level, ensuring you're always challenged but never overwhelmed.</p>
+                    </div>
+                    <div class="glass-card p-8 rounded-[32px] transition-all duration-300 hover:bg-white/5">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-tertiary/20 flex items-center justify-center text-tertiary mb-4">
+                            <span class="material-symbols-outlined">auto_stories</span>
+                        </div>
+                        <h3 class="text-headline-md mb-2 font-bold">Curated Categories</h3>
+                        <p class="text-on-surface-variant text-body-sm">From Quantum Physics to Pop Culture, browse
+                            thousands of topics hand-picked and verified by subject matter experts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- CTA Section -->
+        <section class="px-gutter py-24 mb-stack-lg max-w-container-max mx-auto">
+            <div
+                class="relative rounded-[48px] overflow-hidden p-stack-lg text-center bg-gradient-to-br from-surface-container-high/80 to-surface-container-low/80 border border-white/10 backdrop-blur-2xl">
+                <div
+                    class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent opacity-50">
+                </div>
+                <h2 class="text-display-lg-mobile md:text-display-lg font-extrabold mb-6 relative z-10">Ready to level
+                    up?</h2>
+                <p class="text-body-lg text-on-surface-variant mb-10 relative z-10 max-w-xl mx-auto">Start your journey
+                    today and unlock the premium dashboard featuring deep analytics of your cognitive progress.</p>
+                <div class="relative z-10">
+                    <a href="./index.html"
+                        class="inline-block px-12 py-5 rounded-full font-bold text-lg bg-white text-surface hover:scale-105 active:scale-95 transition-all ripple">
+                        Create Account
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="w-full py-stack-lg mt-auto bg-surface-container-lowest/80 backdrop-blur-md border-t border-white/5">
+        <div
+            class="max-w-container-max mx-auto px-gutter flex flex-col md:flex-row justify-between items-center gap-stack-md">
+            <div class="flex flex-col items-center md:items-start gap-4">
+                <span class="text-body-lg font-bold text-primary">QuizFlow</span>
+                <p class="text-body-sm text-on-surface-variant text-center md:text-left">© 2024 QuizFlow Premium.
+                    Elevate your intellect.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-8">
+                <a class="text-on-surface-variant hover:text-tertiary transition-colors duration-200 text-body-sm"
+                    href="#">Privacy Policy</a>
+                <a class="text-on-surface-variant hover:text-tertiary transition-colors duration-200 text-body-sm"
+                    href="#">Terms of Service</a>
+                <a class="text-on-surface-variant hover:text-tertiary transition-colors duration-200 text-body-sm"
+                    href="#">Contact Us</a>
+                <a class="text-on-surface-variant hover:text-tertiary transition-colors duration-200 text-body-sm"
+                    href="#">Help Center</a>
+            </div>
+            <div class="flex gap-4">
+                <button
+                    class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <span class="material-symbols-outlined text-[20px]">public</span>
+                </button>
+                <button
+                    class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <span class="material-symbols-outlined text-[20px]">alternate_email</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>
