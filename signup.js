@@ -91,9 +91,6 @@ form.addEventListener('submit', (e) => {
   Storage.saveUser({ name, email });
 
   submitLabel.textContent = 'Account created!';
-  setTimeout(() => {
-    window.location.href = 'categories.html';
-  }, 600);
 });
 
 // Social buttons aren't backed by real OAuth in this local build — surface
@@ -109,17 +106,40 @@ const socialNote = document.getElementById('social-note');
 if (submitLabel) {
   submitLabel.addEventListener('click', async () => {
 
+     if (nameInput.value == '' || emailInput.value == '' || passwordInput.value == '') {
+          alert('Plz fill all fields');
+      }else{
+
+    const { data:authData, error:authError } = await client.auth.signUp({
+        email: emailInput.value,
+        password: passwordInput.value,
+        options: {
+        data: {
+            first_name: nameInput.value,
+        }
+        }
+    })
+
+     if (authError) {
+        alert(authError.message);
+      }else{
+          alert('User create')
+      }
+
     const { error } = await client
     .from('quiz-user')
     .insert({
       fullName: nameInput.value,
-      emailInput: nameInput.value,
-      passwordInput: nameInput.value,
+      email: nameInput.value,
+      password: nameInput.value,
     })
 
     if (error) {
       console.log(error.message);
+    }else{
+      alert('User Save')
+      window.location.href = 'dashboard.html'
     }
-    
+  }
   })
 }

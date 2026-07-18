@@ -1,30 +1,30 @@
 (function () {
-                        const canvas = document.getElementById('shader-canvas-ANIMATION_3');
+    const canvas = document.getElementById('shader-canvas-ANIMATION_3');
 
-                        // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
-                        // This fires on initial layout and whenever the element is resized.
-                        function syncSize() {
-                            const w = canvas.clientWidth || 1280;
-                            const h = canvas.clientHeight || 720;
-                            if (canvas.width !== w || canvas.height !== h) {
-                                canvas.width = w;
-                                canvas.height = h;
-                            }
-                        }
-                        if (typeof ResizeObserver !== 'undefined') {
-                            new ResizeObserver(syncSize).observe(canvas);
-                        }
-                        syncSize();
+    // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+    // This fires on initial layout and whenever the element is resized.
+    function syncSize() {
+        const w = canvas.clientWidth || 1280;
+        const h = canvas.clientHeight || 720;
+        if (canvas.width !== w || canvas.height !== h) {
+            canvas.width = w;
+            canvas.height = h;
+        }
+    }
+    if (typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(syncSize).observe(canvas);
+    }
+    syncSize();
 
-                        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-                        if (!gl) return;
-                        const vs = `attribute vec2 a_position;
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) return;
+    const vs = `attribute vec2 a_position;
 varying vec2 v_texCoord;
 void main() {
   v_texCoord = a_position * 0.5 + 0.5;
   gl_Position = vec4(a_position, 0.0, 1.0);
 }`;
-                        const fs = `precision highp float;
+    const fs = `precision highp float;
 varying vec2 v_texCoord;
 uniform float u_time;
 uniform vec2 u_resolution;
@@ -53,90 +53,124 @@ void main() {
     
     gl_FragColor = vec4(finalColor, 1.0);
 }`;
-                        function cs(type, src) {
-                            const s = gl.createShader(type);
-                            gl.shaderSource(s, src);
-                            gl.compileShader(s);
-                            return s;
-                        }
-                        const prog = gl.createProgram();
-                        gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
-                        gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
-                        gl.linkProgram(prog);
-                        gl.useProgram(prog);
-                        const buf = gl.createBuffer();
-                        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-                        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-                        const pos = gl.getAttribLocation(prog, 'a_position');
-                        gl.enableVertexAttribArray(pos);
-                        gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
-                        const uTime = gl.getUniformLocation(prog, 'u_time');
-                        const uRes = gl.getUniformLocation(prog, 'u_resolution');
-                        const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+    function cs(type, src) {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        return s;
+    }
+    const prog = gl.createProgram();
+    gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+    gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+    gl.linkProgram(prog);
+    gl.useProgram(prog);
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    const pos = gl.getAttribLocation(prog, 'a_position');
+    gl.enableVertexAttribArray(pos);
+    gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+    const uTime = gl.getUniformLocation(prog, 'u_time');
+    const uRes = gl.getUniformLocation(prog, 'u_resolution');
+    const uMouse = gl.getUniformLocation(prog, 'u_mouse');
 
-                        // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
-                        // Shaders that need normalized coords should use: u_mouse / u_resolution.
-                        let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
-                        window.addEventListener('mousemove', (event) => {
-                            const rect = canvas.getBoundingClientRect();
-                            if (rect.width && rect.height) {
-                                const nx = (event.clientX - rect.left) / rect.width;
-                                const ny = 1.0 - (event.clientY - rect.top) / rect.height;
-                                mouse.x = nx * canvas.width;
-                                mouse.y = ny * canvas.height;
-                            }
-                        });
-
-                        function render(t) {
-                            if (typeof ResizeObserver === 'undefined') syncSize();
-                            gl.viewport(0, 0, canvas.width, canvas.height);
-                            if (uTime) gl.uniform1f(uTime, t * 0.001);
-                            if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
-                            if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
-                            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-                            requestAnimationFrame(render);
-                        }
-                        render(0);
-                    })();
-function toggleTheme() {
-            const html = document.documentElement;
-            const icon = document.getElementById('theme-icon');
-
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                icon.textContent = 'light_mode';
-                // Note: For real applications, we'd also swap shader parameters or colors
-            } else {
-                html.classList.add('dark');
-                icon.textContent = 'dark_mode';
-            }
+    // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+    // Shaders that need normalized coords should use: u_mouse / u_resolution.
+    let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+    window.addEventListener('mousemove', (event) => {
+        const rect = canvas.getBoundingClientRect();
+        if (rect.width && rect.height) {
+            const nx = (event.clientX - rect.left) / rect.width;
+            const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+            mouse.x = nx * canvas.width;
+            mouse.y = ny * canvas.height;
         }
+    });
 
-        // Simple smooth scroll behavior
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+    function render(t) {
+        if (typeof ResizeObserver === 'undefined') syncSize();
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        if (uTime) gl.uniform1f(uTime, t * 0.001);
+        if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+        if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        requestAnimationFrame(render);
+    }
+    render(0);
+})();
+function toggleTheme() {
+    const html = document.documentElement;
+    const icon = document.getElementById('theme-icon');
+
+    if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        icon.textContent = 'light_mode';
+        // Note: For real applications, we'd also swap shader parameters or colors
+    } else {
+        html.classList.add('dark');
+        icon.textContent = 'dark_mode';
+    }
+}
+
+// Simple smooth scroll behavior
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
         });
+    });
+});
 
-        // Interactive reveal on scroll
-        const observerOptions = {
-            threshold: 0.1
-        };
+// Interactive reveal on scroll
+const observerOptions = {
+    threshold: 0.1
+};
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('opacity-100', 'translate-y-0');
-                    entry.target.classList.remove('opacity-0', 'translate-y-10');
-                }
-            });
-        }, observerOptions);
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100', 'translate-y-0');
+            entry.target.classList.remove('opacity-0', 'translate-y-10');
+        }
+    });
+}, observerOptions);
 
-        document.querySelectorAll('.glass-card').forEach(card => {
-            card.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
-            observer.observe(card);
-        });
+document.querySelectorAll('.glass-card').forEach(card => {
+    card.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+    observer.observe(card);
+});
+
+let logoutBtn = document.getElementById('logoutBtn');
+
+window.onload = async () => {
+    const { data, error } = await client.auth.getSession();
+
+    if (error) {
+        console.log(error.message);
+        return;
+    }else{
+        console.log(data);
+        
+    }
+
+    if (data.session === null) {
+        window.location.href = "/index.html";
+    }else{
+        logoutBtn.innerHTML = `<i class="fas fa-sign-out-alt text-xl"></i>`
+    }
+};
+
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+
+        const isConfirmed = confirm("Are you sure you want to log out?");
+        if (!isConfirmed) return;
+        
+        const { error } = await client.auth.signOut({ scope: 'local' })
+        if (error) {
+            alert(`Error: ${error.message}`)
+            return;
+        }
+    })
+}

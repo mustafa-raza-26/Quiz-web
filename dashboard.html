@@ -95,6 +95,8 @@
             },
         }
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://kit.fontawesome.com/63fac70219.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -135,14 +137,13 @@
                     <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
                 </button>
                 <button
-                    class="p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95 text-on-surface-variant hover:text-primary">
+                    class="pl-1 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95 text-on-surface-variant hover:text-primary">
                     <span class="material-symbols-outlined">notifications</span>
                 </button>
-                <div
-                    class="w-10 h-10 rounded-full border-2 border-primary/30 overflow-hidden cursor-pointer hover:scale-105 transition-transform">
-                    <img class="w-full h-full object-cover"
-                        data-alt="A polished professional close-up headshot of a diverse young tech professional with warm lighting, set against a blurred modern office background with neon purple and blue accents, matching the QuizFlow premium glassmorphism brand identity."
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKzB1xwoee3rt9joi_-9Uw46Trpefa6IGIeTHR7vZ5GCEh-YdWfc91-Lj32Pkckb8Ug9EcxsFqCoI5Wr87xp8P1C5i4c7sEL8nMLvWpSZfnIl1uQ4y0PKweUqLbPMW_jxYJ-0bT7qmq5WHOqKkFxOdVmyvIj-1XLpHmb21hVB0MX9UuwOYyPE80WX5WyfDWP9yoCK1mAH9IE89YsAG1H8ZLDqmKeN3KeFxBI0-LdJxJ6uekmyaK14" />
+                <div class="pt-1 text-white-50 hover:scale-105 transition-transform"></div>
+                <abbr title="logout" class="cursor-pointer" id="logoutBtn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                </abbr>
                 </div>
             </div>
         </div>
@@ -296,6 +297,8 @@
             </div>
         </div>
     </footer>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
