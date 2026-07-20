@@ -49,8 +49,9 @@ function rowHtml(entry, rank) {
   const scoreClass = rank <= 3 ? 'font-mono text-primary font-bold' : 'font-mono text-on-surface-variant';
   const barClass = rank <= 3 ? 'bg-primary' : 'bg-primary/40';
 
-  const maxScore = entry.total ? entry.total * 10 : entry.score;
-  const scoreDisplay = entry.total ? `${entry.score}/${maxScore}` : `${entry.score.toLocaleString()}`;
+  const scoreDisplay = (entry.correct !== undefined && entry.total)
+    ? `${entry.correct}/${entry.total}`
+    : `${entry.score.toLocaleString()}`;
 
   const tr = document.createElement('tr');
   tr.className = 'glass-card-hover group';
@@ -96,8 +97,9 @@ function render() {
   rows.forEach((entry, i) => tbody.appendChild(rowHtml(entry, i + 1)));
 
   const best = rows[0];
-  const bestMax = best.total ? best.total * 10 : null;
-  yourRankEl.textContent = bestMax ? `${best.score}/${bestMax}` : `${best.score.toLocaleString()}`;
+  yourRankEl.textContent = (best.correct !== undefined && best.total)
+    ? `${best.correct}/${best.total}`
+    : `${best.score.toLocaleString()}`;
   yourRankSubEl.textContent = `Best score across ${rows.length} quiz${rows.length === 1 ? '' : 'zes'} taken`;
 }
 
