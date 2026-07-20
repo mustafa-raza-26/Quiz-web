@@ -49,12 +49,15 @@ function rowHtml(entry, rank) {
   const scoreClass = rank <= 3 ? 'font-mono text-primary font-bold' : 'font-mono text-on-surface-variant';
   const barClass = rank <= 3 ? 'bg-primary' : 'bg-primary/40';
 
+  const maxScore = entry.total ? entry.total * 10 : entry.score;
+  const scoreDisplay = entry.total ? `${entry.score}/${maxScore}` : `${entry.score.toLocaleString()}`;
+
   const tr = document.createElement('tr');
   tr.className = 'glass-card-hover group';
   tr.innerHTML = `
     <td class="px-6 py-6">${rankCell}</td>
     <td class="px-6 py-6">${quizCell}</td>
-    <td class="px-6 py-6 ${scoreClass}">${entry.score.toLocaleString()}</td>
+    <td class="px-6 py-6 ${scoreClass}">${scoreDisplay}</td>
     <td class="px-6 py-6">
       <div class="flex items-center gap-2">
         <div class="w-12 h-1.5 bg-white/10 rounded-full overflow-hidden">
@@ -93,7 +96,8 @@ function render() {
   rows.forEach((entry, i) => tbody.appendChild(rowHtml(entry, i + 1)));
 
   const best = rows[0];
-  yourRankEl.textContent = `${best.score.toLocaleString()}`;
+  const bestMax = best.total ? best.total * 10 : null;
+  yourRankEl.textContent = bestMax ? `${best.score}/${bestMax}` : `${best.score.toLocaleString()}`;
   yourRankSubEl.textContent = `Best score across ${rows.length} quiz${rows.length === 1 ? '' : 'zes'} taken`;
 }
 
