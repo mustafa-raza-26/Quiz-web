@@ -132,25 +132,27 @@
                     href="#">Settings</a>
             </div>
             <div class="flex items-center gap-stack-sm">
-                <button class="p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95">
-                    <span class="material-symbols-outlined text-primary">dark_mode</span>
-                </button>
-                <button class="p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95">
-                    <span class="material-symbols-outlined text-primary">notifications</span>
-                </button>
-                <div
-                    class="flex items-center gap-3 ml-4 bg-white/5 py-1.5 pl-1.5 pr-4 rounded-full glass-card border-white/10">
-                    <img class="w-8 h-8 rounded-full border-2 border-primary object-cover"
-                        data-alt="A cinematic, high-quality profile portrait of a modern tech professional with a friendly smile, set against a blurred background of vibrant neon indigo and violet office lights. The lighting is soft and professional, emphasizing a premium dark-mode aesthetic with rich shadows and crisp highlights on the hair and facial features."
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4rsmEamA1ayYJ2qZrW99UOBHgJ6AqhFiNjrOsV9OMJOD1fYVlPyQ2jr8svTl_6TV9fzKGtcIrD0JfY19s8UuqHCfJizMRxSxPc7jLM0Xt8jRkKNJiJ-hxX8hvreng8bn7CWutJSjg3qCflfIJDMqB-jZg3i-eQnvAn27RpfMGIOjAqhFYIIV8NSYeIXT2I0U7h55yHGdiWmFx20O_E1sZ_d4go9YW5hJm0vZ5PzCi5bZZNoBjobs" />
+                <div class="flex items-center gap-3 ml-4 bg-white/5 py-1.5 pl-1.5 pl-4 pr-4 rounded-full glass-card border-white/10">
                     <div class="hidden sm:block">
-                        <p class="text-label-caps font-label-caps text-on-surface leading-tight">Alex Rivera</p>
+                        <p class="text-label-caps font-label-caps text-on-surface leading-tight" id="userName">Alex Rivera</p>
                         <p class="text-[10px] text-primary font-bold tracking-wider uppercase">Elite Rank • 12,450 pts
                         </p>
                     </div>
                 </div>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95">
+                    <span class="material-symbols-outlined text-primary">menu</span>
+                </button>
             </div>
         </nav>
+        <div id="mobile-menu" class="hidden md:hidden flex flex-col justify-evenly gap-4 px-gutter py-4 bg-surface/95 backdrop-blur-xl border-t border-white/10 absolute top-full left-0 w-full">
+            <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
+                href="./index.html">Dashboard</a>
+            <a class="text-primary font-bold font-body-lg text-body-lg" href="#">Categories</a>
+            <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
+                href="./leaderboard.html">Leaderboard</a>
+            <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
+                href="#">Settings</a>
+        </div>
     </header>
     <main class="relative z-10 flex-grow pt-32 pb-stack-lg px-gutter max-w-container-max mx-auto w-full">
         <!-- Hero Section -->
@@ -319,6 +321,8 @@
             </div>
         </div>
     </footer>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
     <script src="categories.js"></script>
 </body>
 </html>

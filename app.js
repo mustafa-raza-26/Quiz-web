@@ -98,18 +98,13 @@ void main() {
     }
     render(0);
 })();
-function toggleTheme() {
-    const html = document.documentElement;
-    const icon = document.getElementById('theme-icon');
-
-    if (html.classList.contains('dark')) {
-        html.classList.remove('dark');
-        icon.textContent = 'light_mode';
-        // Note: For real applications, we'd also swap shader parameters or colors
-    } else {
-        html.classList.add('dark');
-        icon.textContent = 'dark_mode';
-    }
+// Mobile/tablet hamburger menu toggle
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
 }
 
 // Simple smooth scroll behavior
@@ -153,6 +148,10 @@ window.onload = async () => {
         console.log(data);
         
     }
+    
+    var userDate = data.session
+    console.log(userDate);
+    
 
     if (data.session === null) {
         window.location.href = "/index.html";

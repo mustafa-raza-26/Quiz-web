@@ -131,22 +131,25 @@
             </nav>
             <!-- Actions -->
             <div class="flex items-center gap-4">
-                <button
-                    class="p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95 text-on-surface-variant hover:text-primary"
-                    onclick="toggleTheme()">
-                    <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
-                </button>
-                <button
-                    class="pl-1 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95 text-on-surface-variant hover:text-primary">
-                    <span class="material-symbols-outlined">notifications</span>
-                </button>
                 <div class="pt-1 text-white-50 hover:scale-105 transition-transform"></div>
                 <abbr title="logout" class="cursor-pointer" id="logoutBtn">
                     <i class="fa-solid fa-arrow-right-to-bracket"></i>
                 </abbr>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95 text-on-surface-variant hover:text-primary">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
                 </div>
             </div>
         </div>
+         <nav id="mobile-menu" class="hidden md:hidden flex flex-col justify-evenly gap-4 px-gutter py-4 bg-surface/95 backdrop-blur-xl border-t border-white/10 absolute top-full left-0 w-full">
+            <a class="text-primary font-bold" href="#">Dashboard</a>
+            <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200"
+                href="./categories.html">Categories</a>
+            <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200"
+                href="./leaderboard.html">Leaderboard</a>
+            <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200"
+                href="#">Settings</a>
+        </nav>
     </header>
     <!-- Main Content -->
     <main class="relative z-10 flex-grow pt-20">

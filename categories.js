@@ -109,6 +109,15 @@ document.querySelectorAll('.glass-card').forEach(card => {
     });
 });
 
+// Mobile/tablet hamburger menu toggle
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+}
+
 // Start a quiz when a category card is clicked
 document.querySelectorAll('.glass-card[data-category]').forEach(card => {
     card.addEventListener('click', () => {
@@ -126,3 +135,30 @@ document.addEventListener('mousemove', (e) => {
         animationElement.style.transform = `translateX(${x}px) translateY(${y}px)`;
     }
 });
+
+
+window.onload = async () => {
+    const { data, error } = await client.auth.getSession();
+
+    if (error) {
+        console.log(error.message);
+        return;
+    }else{
+        console.log(data);
+        
+    }
+    
+    var userDate = data.session
+    console.log(userDate);
+    
+
+    if (data.session === null) {
+        window.location.href = "/index.html";
+    }
+
+    let profileName = document.getElementById('userName');
+    if (profileName) {
+        profileName.innerHTML = `${userDate.user.user_metadata.full_name}`
+    }
+};
+

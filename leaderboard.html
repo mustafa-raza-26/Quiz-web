@@ -192,22 +192,28 @@
                     href="#">Settings</a>
             </nav>
             <div class="flex items-center gap-stack-sm">
-                <button
-                    class="p-2 hover:bg-white/5 transition-all duration-200 rounded-full text-on-surface-variant active:scale-95">
-                    <span class="material-symbols-outlined">dark_mode</span>
-                </button>
-                <button
-                    class="p-2 hover:bg-white/5 transition-all duration-200 rounded-full text-on-surface-variant active:scale-95">
-                    <span class="material-symbols-outlined">notifications</span>
-                </button>
                 <div
                     class="w-10 h-10 rounded-full border-2 border-primary/30 overflow-hidden ml-2 cursor-pointer hover:border-primary transition-all">
                     <img class="w-full h-full object-cover"
                         data-alt="A professional and sleek close-up profile portrait of a modern tech user, smiling confidently, with soft cinematic lighting and a vibrant neon-accented background that matches a dark-mode premium aesthetic. The user has a contemporary style, and the overall image quality is hyper-realistic with sharp focus."
                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVHBnqitnrcr6oHirjpXy0Er7IiKdaataY54aLgipImYSRQax2zkshYn4DfR_r08SqCy7SKrSY2_kG2nFKDyCEE-HhvKhJibZtAs87EKtjMXtDaofqfUNVVg0L7VMZ_APorAKicxHRYZ_RBPVRlD4_ZjrmBJyBWB-pnH0uJqtWqTOgvsdMxSak74B_rlqxyOGG9w8W_uS0kZJo0iNwvybmkyFOoATH1ntk8eV5-DX4B78EAm2gUSs" />
                 </div>
+                <button id="mobile-menu-btn"
+                    class="md:hidden p-2 hover:bg-white/5 transition-all duration-200 rounded-full text-on-surface-variant active:scale-95">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
             </div>
         </div>
+        <nav id="mobile-menu"
+            class="hidden md:hidden flex flex-col justify-evenly gap-4 px-gutter py-4 bg-surface/95 backdrop-blur-xl border-t border-white/10 absolute top-full left-0 w-full">
+            <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
+                href="./index.html">Dashboard</a>
+            <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
+                href="./categories.html">Categories</a>
+            <a class="text-primary font-bold font-body-lg text-body-lg" href="#">Leaderboard</a>
+            <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
+                href="#">Settings</a>
+        </nav>
     </header>
     <main class="flex-grow pt-32 pb-16 px-gutter max-w-container-max mx-auto w-full">
         <!-- Hero & Stats Section -->
@@ -225,7 +231,8 @@
                 <div>
                     <span class="font-label-caps text-on-surface-variant block mb-1">YOUR RANKING</span>
                     <div class="font-headline-md text-primary text-3xl" id="your-rank">—</div>
-                    <span class="text-body-sm text-on-surface-variant" id="your-rank-sub">Play a quiz to get ranked</span>
+                    <span class="text-body-sm text-on-surface-variant" id="your-rank-sub">Play a quiz to get
+                        ranked</span>
                 </div>
                 <div
                     class="h-16 w-16 rounded-full bg-primary-container/20 flex items-center justify-center border border-primary/20">
@@ -368,6 +375,16 @@
     </footer>
     <script type="module" src="leaderboard.js"></script>
     <script>
+        // Mobile/tablet hamburger menu toggle (kept as a plain script, not a
+        // module, so it still works even when this file is opened directly
+        // from disk where module scripts get blocked by the browser).
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
         // Search filter (works on whatever rows leaderboard.js has rendered)
         const searchInput = document.querySelector('input[type="text"]');
         searchInput.addEventListener('input', (e) => {
