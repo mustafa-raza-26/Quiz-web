@@ -25,6 +25,9 @@ btn.addEventListener('mouseleave', function () {
 const loginEmail = document.getElementById('email');
 const loginPassword = document.getElementById('password');
 const loginBtn = document.getElementById('loginBtn');
+const googleLogin = document.getElementById('googleLogin');
+const githubLogin = document.getElementById('githubLogin');
+
 
 if (loginBtn) {
     loginBtn.addEventListener('click', async (e) => {
@@ -101,3 +104,32 @@ window.onload = async () => {
         window.location.href = '/dashboard.html';
     }
 };
+
+if (googleLogin) {
+    googleLogin.addEventListener('click', async () => {
+        const { data, error } = await client.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+            redirectTo: 'https://mr-quiz-web.vercel.app/dashboard.html'
+        }
+        })
+        if (error) {
+            console.log(`Error: ${error.message}`);        
+        }
+    })
+}
+
+if (githubLogin) {
+    githubLogin.addEventListener('click', async () => {
+        const { data, error } = await client.auth.signInWithOAuth({
+            provider: 'github',
+            options: {
+                redirectTo: 'https://mr-quiz-web.vercel.app/dashboard.html'
+    }
+})
+if (error) {
+    console.log(`Error: ${error.message}`);
+    
+}
+})
+}

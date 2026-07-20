@@ -31,6 +31,8 @@ const confirmInput = document.getElementById('confirm-input');
 const tosCheckbox = document.getElementById('tos');
 const formError = document.getElementById('form-error');
 const submitLabel = document.getElementById('submit-label');
+let google_Btn = document.getElementById('google-btn');
+let github_Btn = document.getElementById('github-btn');
 
 function showError(message) {
   formError.textContent = message;
@@ -141,5 +143,22 @@ if (submitLabel) {
       window.location.href = 'dashboard.html'
     }
   }
+  })
+}
+
+if (google_Btn) {
+  google_Btn.addEventListener('click', async () => {
+    await client.auth.signInWithOAuth({
+      provider: "google",
+    });
+  })
+}
+
+
+if (github_Btn) {
+  github_Btn.addEventListener('click', async () => {
+    await client.auth.signInWithOAuth({
+      provider: "github",
+    });
   })
 }

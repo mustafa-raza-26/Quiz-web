@@ -171,6 +171,8 @@ if (logoutBtn) {
         if (error) {
             alert(`Error: ${error.message}`)
             return;
+        }else{
+            window.location.href = '/index.html'
         }
     })
 }
