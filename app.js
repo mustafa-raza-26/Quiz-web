@@ -158,7 +158,7 @@ window.onload = async () => {
     }else{
         logoutBtn.innerHTML = `<i class="fas fa-sign-out-alt text-xl"></i>`
         startQuiz.innerHTML = `
-                        <a href="./test.html"
+                        <a href="./categories.html"
                             class="inline-block px-12 py-5 rounded-full font-bold text-lg bg-white text-surface hover:scale-105 active:scale-95 transition-all ripple">
                             Start Quiz
                         </a>`
