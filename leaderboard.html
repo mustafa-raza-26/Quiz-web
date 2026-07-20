@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>QuizFlow | Global Leaderboard</title>
+    <title>QuizFlow | Quiz History</title>
     <link rel="shortcut icon" href="./images/quizflow_favicon.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"rel="stylesheet" />
@@ -213,16 +213,15 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-stack-md mb-stack-lg">
             <div class="lg:col-span-8 flex flex-col justify-center">
                 <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-4">
-                    Global <span class="text-primary">Hall of Fame</span>
+                    Your <span class="text-primary">Quiz History</span>
                 </h1>
                 <p class="font-body-lg text-on-surface-variant max-w-2xl">
-                    Behold the intellectual elite. These grandmasters have conquered the most challenging modules and
-                    secured their places in history.
+                    Every quiz you've taken, the category you tackled, and the score you earned — all in one place.
                 </p>
             </div>
             <div class="lg:col-span-4 glass-panel p-stack-md rounded-xl flex items-center justify-between">
                 <div>
-                    <span class="font-label-caps text-on-surface-variant block mb-1">YOUR RANKING</span>
+                    <span class="font-label-caps text-on-surface-variant block mb-1">YOUR BEST SCORE</span>
                     <div class="font-headline-md text-primary text-3xl" id="your-rank">—</div>
                     <span class="text-body-sm text-on-surface-variant" id="your-rank-sub">Play a quiz to get
                         ranked</span>
@@ -241,14 +240,14 @@
                     class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">search</span>
                 <input
                     class="w-full bg-white/5 border border-white/10 rounded-full py-3 pl-12 pr-4 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all font-body-sm text-on-surface"
-                    placeholder="Search friends or rank..." type="text" />
+                    placeholder="Search by quiz name..." type="text" />
             </div>
             <div class="flex items-center gap-stack-sm w-full md:w-auto">
                 <button
                     class="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 border border-error/30 text-error rounded-full font-label-caps hover:bg-error/10 transition-all active:scale-95"
                     id="clear-btn">
                     <span class="material-symbols-outlined text-[18px]">delete_sweep</span>
-                    Clear Leaderboard
+                    Clear History
                 </button>
                 <div class="hidden md:flex items-center gap-2 p-1 bg-white/5 rounded-full border border-white/10">
                     <button class="px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-caps text-[11px]">ALL
@@ -265,7 +264,7 @@
                     <thead>
                         <tr class="border-b border-white/5 bg-white/5">
                             <th class="px-6 py-4 font-label-caps text-on-surface-variant">Rank</th>
-                            <th class="px-6 py-4 font-label-caps text-on-surface-variant">User</th>
+                            <th class="px-6 py-4 font-label-caps text-on-surface-variant">Quiz</th>
                             <th class="px-6 py-4 font-label-caps text-on-surface-variant">Score</th>
                             <th class="px-6 py-4 font-label-caps text-on-surface-variant">Accuracy</th>
                             <th class="px-6 py-4 font-label-caps text-on-surface-variant text-right">Date Achieved</th>
@@ -274,19 +273,13 @@
                     <tbody class="divide-y divide-white/5 font-body-sm" id="leaderboard-body"></tbody>
                 </table>
             </div>
-            <div class="p-6 bg-white/2 border-t border-white/5 flex justify-center">
-                <button class="text-primary hover:text-white transition-colors font-label-caps flex items-center gap-2">
-                    Show More Global Rankings
-                    <span class="material-symbols-outlined">expand_more</span>
-                </button>
-            </div>
         </div>
         <!-- Brag Section -->
         <div
             class="glass-panel p-stack-md rounded-xl flex flex-col md:flex-row items-center justify-between gap-stack-md border-primary/20 bg-primary/5">
             <div class="text-center md:text-left">
-                <h3 class="font-headline-md mb-1">Satisfied with your rank?</h3>
-                <p class="text-on-surface-variant font-body-sm">Share your achievement with the world and challenge your
+                <h3 class="font-headline-md mb-1">Proud of a score?</h3>
+                <p class="text-on-surface-variant font-body-sm">Share your best quiz result with the world and challenge your
                     friends.</p>
             </div>
             <div class="flex items-center gap-4">
@@ -330,10 +323,10 @@
                 class="w-16 h-16 rounded-full bg-error/10 text-error flex items-center justify-center mx-auto mb-stack-md">
                 <span class="material-symbols-outlined text-4xl">warning</span>
             </div>
-            <h2 class="font-headline-md text-center mb-2">Reset Global History?</h2>
+            <h2 class="font-headline-md text-center mb-2">Clear Your Quiz History?</h2>
             <p class="text-on-surface-variant text-center font-body-sm mb-stack-md">
-                This will clear the cached global rankings for your session. This action cannot be undone. Are you sure
-                you want to proceed?
+                This will permanently delete all of your saved quiz attempts and scores from this browser. This
+                action cannot be undone. Are you sure you want to proceed?
             </p>
             <div class="flex gap-4">
                 <button

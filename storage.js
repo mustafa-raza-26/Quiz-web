@@ -6,8 +6,8 @@ export const Storage = {
       ...scoreData,
       date: new Date().toLocaleDateString()
     });
-    leaderboard.sort((a, b) => b.score - a.score);
-    localStorage.setItem('quizflow_leaderboard', JSON.stringify(leaderboard.slice(0, 10)));
+    // Keep the complete quiz history (every attempt), not just the top 10 scores.
+    localStorage.setItem('quizflow_leaderboard', JSON.stringify(leaderboard));
   },
   getLeaderboard: () => {
     return JSON.parse(localStorage.getItem('quizflow_leaderboard') || '[]');
