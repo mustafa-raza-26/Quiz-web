@@ -137,6 +137,7 @@ document.querySelectorAll('.glass-card').forEach(card => {
 });
 
 let logoutBtn = document.getElementById('logoutBtn');
+let startQuiz = document.getElementById('startQuiz');
 
 window.onload = async () => {
     const { data, error } = await client.auth.getSession();
@@ -152,12 +153,18 @@ window.onload = async () => {
     var userDate = data.session
     console.log(userDate);
     
-
     if (data.session === null) {
         window.location.href = "/index.html";
     }else{
         logoutBtn.innerHTML = `<i class="fas fa-sign-out-alt text-xl"></i>`
+        startQuiz.innerHTML = `
+                        <a href="./test.html"
+                            class="inline-block px-12 py-5 rounded-full font-bold text-lg bg-white text-surface hover:scale-105 active:scale-95 transition-all ripple">
+                            Start Quiz
+                        </a>`
     }
+
+    
 };
 
 if (logoutBtn) {
