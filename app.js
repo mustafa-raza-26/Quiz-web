@@ -137,7 +137,7 @@ document.querySelectorAll('.glass-card').forEach(card => {
 });
 
 let logoutBtn = document.getElementById('logoutBtn');
-let startQuiz = document.getElementById('startQuiz');
+let logoutBtnMobile = document.getElementById('logoutBtnMobile');
 
 window.onload = async () => {
     const { data, error } = await client.auth.getSession();
@@ -153,32 +153,40 @@ window.onload = async () => {
     var userDate = data.session
     console.log(userDate);
     
+
     if (data.session === null) {
         window.location.href = "/index.html";
     }else{
         logoutBtn.innerHTML = `<i class="fas fa-sign-out-alt text-xl"></i>`
-        startQuiz.innerHTML = `
-                        <a href="./categories.html"
-                            class="inline-block px-12 py-5 rounded-full font-bold text-lg bg-white text-surface hover:scale-105 active:scale-95 transition-all ripple">
-                            Start Quiz
-                        </a>`
     }
 
-    
+    let profileName = document.getElementById('userName');
+    if (profileName && userDate) {
+        profileName.innerHTML = `${userDate.user.user_metadata.full_name}`
+    }
+    let profileNameMobile = document.getElementById('userNameMobile');
+    if (profileNameMobile && userDate) {
+        profileNameMobile.innerHTML = `${userDate.user.user_metadata.full_name}`
+    }
 };
 
-if (logoutBtn) {
-    logoutBtn.addEventListener('click', async () => {
+async function doLogout() {
+    const isConfirmed = confirm("Are you sure you want to log out?");
+    if (!isConfirmed) return;
 
-        const isConfirmed = confirm("Are you sure you want to log out?");
-        if (!isConfirmed) return;
-        
-        const { error } = await client.auth.signOut({ scope: 'local' })
-        if (error) {
-            alert(`Error: ${error.message}`)
-            return;
-        }else{
-            window.location.href = '/index.html'
-        }
-    })
+    const { error } = await client.auth.signOut({ scope: 'local' })
+    if (error) {
+        alert(`Error: ${error.message}`)
+        return;
+    }else{
+        window.location.href = '/index.html'
+    }
+}
+
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', doLogout);
+}
+
+if (logoutBtnMobile) {
+    logoutBtnMobile.addEventListener('click', doLogout);
 }

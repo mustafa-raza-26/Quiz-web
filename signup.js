@@ -48,7 +48,7 @@ function clearFieldErrors() {
   [nameInput, emailInput, passwordInput, confirmInput].forEach(el => el.classList.remove('input-error'));
 }
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
   clearError();
   clearFieldErrors();
@@ -88,77 +88,49 @@ form.addEventListener('submit', (e) => {
     return;
   }
 
-  // No backend here — store the account locally so the rest of the app
-  // (profile display, leaderboard "You" entries, etc.) has something to read.
+  submitLabel.textContent = 'Creating account…';
+
+  // Supabase Auth owns the actual account + password.
+  const { error: authError } = await client.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { first_name: name }
+    }
+  });
+
+  if (authError) {
+    showError(authError.message);
+    submitLabel.textContent = 'Create Account';
+    return;
+  }
+
+  // Mirror the profile into the app's own table — never the password,
+  // Auth already stores that securely and this table doesn't need it.
+  const { error: dbError } = await client
+    .from('quiz-user')
+    .insert({ fullName: name, email });
+
+  if (dbError) {
+    console.error(dbError.message);
+  }
+
+  // Also keep a local copy: other pages (profile display, leaderboard
+  // "You" entries, etc.) read from Storage rather than hitting Supabase.
   Storage.saveUser({ name, email });
 
   submitLabel.textContent = 'Account created!';
+  window.location.href = 'dashboard.html';
 });
 
-// Social buttons aren't backed by real OAuth in this local build — surface
-// that clearly instead of doing nothing when clicked.
-const socialNote = document.getElementById('social-note');
-['google-btn', 'github-btn'].forEach(id => {
-  document.getElementById(id).addEventListener('click', () => {
-    socialNote.classList.remove('hidden');
-  });
-});
-
-
-if (submitLabel) {
-  submitLabel.addEventListener('click', async () => {
-
-     if (nameInput.value == '' || emailInput.value == '' || passwordInput.value == '') {
-          alert('Plz fill all fields');
-      }else{
-
-    const { data:authData, error:authError } = await client.auth.signUp({
-        email: emailInput.value,
-        password: passwordInput.value,
-        options: {
-        data: {
-            first_name: nameInput.value,
-        }
-        }
-    })
-
-     if (authError) {
-        alert(authError.message);
-      }else{
-          alert('User create')
-      }
-
-    const { error } = await client
-    .from('quiz-user')
-    .insert({
-      fullName: nameInput.value,
-      email: nameInput.value,
-      password: nameInput.value,
-    })
-
-    if (error) {
-      console.log(error.message);
-    }else{
-      alert('User Save')
-      window.location.href = 'dashboard.html'
-    }
+// Social sign-up — relies on Google/GitHub providers being enabled in the
+// Supabase project's Auth settings; if they aren't, Supabase returns an error.
+async function socialSignUp(provider) {
+  const { error } = await client.auth.signInWithOAuth({ provider });
+  if (error) {
+    showError(error.message || `${provider} sign-in isn't set up yet.`);
   }
-  })
 }
 
-if (google_Btn) {
-  google_Btn.addEventListener('click', async () => {
-    await client.auth.signInWithOAuth({
-      provider: "google",
-    });
-  })
-}
-
-
-if (github_Btn) {
-  github_Btn.addEventListener('click', async () => {
-    await client.auth.signInWithOAuth({
-      provider: "github",
-    });
-  })
-}
+if (google_Btn) google_Btn.addEventListener('click', () => socialSignUp('google'));
+if (github_Btn) github_Btn.addEventListener('click', () => socialSignUp('github'));

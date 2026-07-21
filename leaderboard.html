@@ -182,15 +182,17 @@
                 <a class="text-primary font-bold relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary after:shadow-[0_0_8px_#8083ff] font-body-lg text-body-lg"
                     href="#">Leaderboard</a>
                 <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
-                    href="#">Settings</a>
+                    href="./settings.html">Settings</a>
             </nav>
             <div class="flex items-center gap-stack-sm">
-                <div
-                    class="w-10 h-10 rounded-full border-2 border-primary/30 overflow-hidden ml-2 cursor-pointer hover:border-primary transition-all">
-                    <img class="w-full h-full object-cover"
-                        data-alt="A professional and sleek close-up profile portrait of a modern tech user, smiling confidently, with soft cinematic lighting and a vibrant neon-accented background that matches a dark-mode premium aesthetic. The user has a contemporary style, and the overall image quality is hyper-realistic with sharp focus."
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVHBnqitnrcr6oHirjpXy0Er7IiKdaataY54aLgipImYSRQax2zkshYn4DfR_r08SqCy7SKrSY2_kG2nFKDyCEE-HhvKhJibZtAs87EKtjMXtDaofqfUNVVg0L7VMZ_APorAKicxHRYZ_RBPVRlD4_ZjrmBJyBWB-pnH0uJqtWqTOgvsdMxSak74B_rlqxyOGG9w8W_uS0kZJo0iNwvybmkyFOoATH1ntk8eV5-DX4B78EAm2gUSs" />
+                <div class="hidden md:flex items-center gap-3 bg-white/5 py-1.5 pl-1.5 pl-4 pr-4 rounded-full glass-card border-white/10">
+                    <div>
+                        <p class="text-label-caps font-label-caps text-on-surface leading-tight" id="userName">Alex Rivera</p>
+                    </div>
                 </div>
+                <abbr title="logout" class="hidden md:inline-block cursor-pointer p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95" id="logoutBtn">
+                    <span class="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors">logout</span>
+                </abbr>
                 <button id="mobile-menu-btn"
                     class="md:hidden p-2 hover:bg-white/5 transition-all duration-200 rounded-full text-on-surface-variant active:scale-95">
                     <span class="material-symbols-outlined">menu</span>
@@ -205,7 +207,13 @@
                 href="./categories.html">Categories</a>
             <a class="text-primary font-bold font-body-lg text-body-lg" href="#">Leaderboard</a>
             <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
-                href="#">Settings</a>
+                href="./settings.html">Settings</a>
+            <div class="border-t border-white/10 pt-4 mt-2 flex items-center justify-between">
+                <p class="font-label-caps text-on-surface" id="userNameMobile">Alex Rivera</p>
+                <abbr title="logout" class="cursor-pointer" id="logoutBtnMobile">
+                    <span class="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors">logout</span>
+                </abbr>
+            </div>
         </nav>
     </header>
     <main class="flex-grow pt-32 pb-16 px-gutter max-w-container-max mx-auto w-full">
@@ -360,6 +368,8 @@
         </div>
     </footer>
     <script type="module" src="leaderboard.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
     <script>
         // Mobile/tablet hamburger menu toggle (kept as a plain script, not a
         // module, so it still works even when this file is opened directly
@@ -381,6 +391,55 @@
                 row.style.display = name.includes(term) ? '' : 'none';
             });
         });
+
+        // Session check + profile name (same pattern used across the app)
+        let logoutBtn = document.getElementById('logoutBtn');
+        let logoutBtnMobile = document.getElementById('logoutBtnMobile');
+
+        window.onload = async () => {
+            const { data, error } = await client.auth.getSession();
+
+            if (error) {
+                console.log(error.message);
+                return;
+            }
+
+            var userDate = data.session;
+
+            if (data.session === null) {
+                window.location.href = "/index.html";
+                return;
+            }
+
+            let profileName = document.getElementById('userName');
+            if (profileName) {
+                profileName.innerHTML = `${userDate.user.user_metadata.full_name}`;
+            }
+            let profileNameMobile = document.getElementById('userNameMobile');
+            if (profileNameMobile) {
+                profileNameMobile.innerHTML = `${userDate.user.user_metadata.full_name}`;
+            }
+        };
+
+        async function doLogout() {
+            const isConfirmed = confirm("Are you sure you want to log out?");
+            if (!isConfirmed) return;
+
+            const { error } = await client.auth.signOut({ scope: 'local' });
+            if (error) {
+                alert(`Error: ${error.message}`);
+                return;
+            } else {
+                window.location.href = '/index.html';
+            }
+        }
+
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', doLogout);
+        }
+        if (logoutBtnMobile) {
+            logoutBtnMobile.addEventListener('click', doLogout);
+        }
     </script>
 </body>
 </html>

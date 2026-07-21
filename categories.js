@@ -160,5 +160,32 @@ window.onload = async () => {
     if (profileName) {
         profileName.innerHTML = `${userDate.user.user_metadata.full_name}`
     }
+    let profileNameMobile = document.getElementById('userNameMobile');
+    if (profileNameMobile) {
+        profileNameMobile.innerHTML = `${userDate.user.user_metadata.full_name}`
+    }
 };
+
+async function doLogout() {
+    const isConfirmed = confirm("Are you sure you want to log out?");
+    if (!isConfirmed) return;
+
+    const { error } = await client.auth.signOut({ scope: 'local' })
+    if (error) {
+        alert(`Error: ${error.message}`)
+        return;
+    } else {
+        window.location.href = '/index.html'
+    }
+}
+
+let logoutBtn = document.getElementById('logoutBtn');
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', doLogout);
+}
+
+let logoutBtnMobile = document.getElementById('logoutBtnMobile');
+if (logoutBtnMobile) {
+    logoutBtnMobile.addEventListener('click', doLogout);
+}
 

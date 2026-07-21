@@ -4,99 +4,15 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>QuizFlow - Choose Your Challenge</title>
-    <link rel="shortcut icon" href="./images/quizflow_favicon.png" type="image/x-icon">
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "primary-container": "#8083ff",
-                        "inverse-on-surface": "#283044",
-                        "error-container": "#93000a",
-                        "secondary-fixed": "#f0dbff",
-                        "on-secondary-container": "#d6a9ff",
-                        "surface-container-low": "#131b2e",
-                        "outline-variant": "#464554",
-                        "surface": "#0b1326",
-                        "on-surface-variant": "#c7c4d7",
-                        "on-tertiary-container": "#570032",
-                        "secondary-container": "#6f00be",
-                        "surface-bright": "#31394d",
-                        "on-secondary-fixed": "#2c0051",
-                        "on-error": "#690005",
-                        "on-primary-container": "#0d0096",
-                        "on-tertiary-fixed-variant": "#8c0053",
-                        "surface-container-high": "#222a3d",
-                        "on-primary": "#1000a9",
-                        "on-primary-fixed": "#07006c",
-                        "inverse-primary": "#494bd6",
-                        "on-primary-fixed-variant": "#2f2ebe",
-                        "on-error-container": "#ffdad6",
-                        "on-background": "#dae2fd",
-                        "primary": "#c0c1ff",
-                        "error": "#ffb4ab",
-                        "background": "#0b1326",
-                        "surface-dim": "#0b1326",
-                        "tertiary": "#ffb0cd",
-                        "tertiary-container": "#f751a1",
-                        "on-tertiary-fixed": "#3e0022",
-                        "secondary-fixed-dim": "#ddb7ff",
-                        "surface-container": "#171f33",
-                        "on-tertiary": "#640039",
-                        "secondary": "#ddb7ff",
-                        "outline": "#908fa0",
-                        "on-secondary-fixed-variant": "#6900b3",
-                        "inverse-surface": "#dae2fd",
-                        "surface-variant": "#2d3449",
-                        "surface-container-highest": "#2d3449",
-                        "surface-container-lowest": "#060e20",
-                        "primary-fixed-dim": "#c0c1ff",
-                        "on-secondary": "#490080",
-                        "tertiary-fixed": "#ffd9e4",
-                        "surface-tint": "#c0c1ff",
-                        "on-surface": "#dae2fd",
-                        "primary-fixed": "#e1e0ff",
-                        "tertiary-fixed-dim": "#ffb0cd"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "gutter": "24px",
-                        "stack-lg": "48px",
-                        "stack-sm": "8px",
-                        "stack-md": "24px",
-                        "margin-mobile": "16px",
-                        "container-max": "1280px"
-                    },
-                    "fontFamily": {
-                        "body-lg": ["Plus Jakarta Sans"],
-                        "display-lg-mobile": ["Plus Jakarta Sans"],
-                        "display-lg": ["Plus Jakarta Sans"],
-                        "headline-md": ["Plus Jakarta Sans"],
-                        "body-sm": ["Plus Jakarta Sans"],
-                        "label-caps": ["Plus Jakarta Sans"]
-                    },
-                    "fontSize": {
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800" }],
-                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
-                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "700" }],
-                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
-                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }]
-                    }
-                },
-            },
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="dist/output.css">
     <link rel="stylesheet" href="categories.css">
 </head>
 
@@ -125,16 +41,19 @@
                 <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
                     href="./leaderboard.html">Leaderboard</a>
                 <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
-                    href="#">Settings</a>
+                    href="./settings.html">Settings</a>
             </div>
             <div class="flex items-center gap-stack-sm">
-                <div class="flex items-center gap-3 ml-4 bg-white/5 py-1.5 pl-1.5 pl-4 pr-4 rounded-full glass-card border-white/10">
-                    <div class="hidden sm:block">
+                <div class="hidden md:flex items-center gap-3 ml-4 bg-white/5 py-1.5 pl-1.5 pl-4 pr-4 rounded-full glass-card border-white/10">
+                    <div>
                         <p class="text-label-caps font-label-caps text-on-surface leading-tight" id="userName">Alex Rivera</p>
                         <p class="text-[10px] text-primary font-bold tracking-wider uppercase">Elite Rank • 12,450 pts
                         </p>
                     </div>
                 </div>
+                <abbr title="logout" class="hidden md:inline-block cursor-pointer p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95" id="logoutBtn">
+                    <span class="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors">logout</span>
+                </abbr>
                 <button id="mobile-menu-btn" class="md:hidden p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95">
                     <span class="material-symbols-outlined text-primary">menu</span>
                 </button>
@@ -147,7 +66,13 @@
             <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
                 href="./leaderboard.html">Leaderboard</a>
             <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
-                href="#">Settings</a>
+                href="./settings.html">Settings</a>
+            <div class="border-t border-white/10 pt-4 mt-2 flex items-center justify-between">
+                <p class="font-label-caps text-on-surface" id="userNameMobile">Alex Rivera</p>
+                <abbr title="logout" class="cursor-pointer" id="logoutBtnMobile">
+                    <span class="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors">logout</span>
+                </abbr>
+            </div>
         </div>
     </header>
     <main class="relative z-10 flex-grow pt-32 pb-stack-lg px-gutter max-w-container-max mx-auto w-full">

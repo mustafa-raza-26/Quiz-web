@@ -1,0 +1,16 @@
+{
+  "name": "quizflow",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:main && npm run build:dashboard",
+    "build:main": "tailwindcss -c tailwind.config.js -i ./src/input.css -o ./dist/output.css --minify",
+    "build:dashboard": "tailwindcss -c tailwind.dashboard.config.js -i ./src/input.css -o ./dist/dashboard.css --minify",
+    "watch": "tailwindcss -c tailwind.config.js -i ./src/input.css -o ./dist/output.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/container-queries": "^0.1.1"
+  }
+}

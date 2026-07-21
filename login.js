@@ -72,8 +72,15 @@ if (loginBtn) {
 
 // Social sign-in — relies on Google/GitHub providers being enabled in the
 // Supabase project's Auth settings; if they aren't, Supabase returns an error.
+// redirectTo is built from the current origin so this works on localhost,
+// staging, or any deployed domain without hardcoding a URL.
 async function socialSignIn(provider) {
-    const { error } = await client.auth.signInWithOAuth({ provider });
+    const { error } = await client.auth.signInWithOAuth({
+        provider,
+        options: {
+            redirectTo: `${window.location.origin}/dashboard.html`
+        }
+    });
     if (error) {
         Swal.fire({
             icon: 'error',
@@ -84,10 +91,8 @@ async function socialSignIn(provider) {
     }
 }
 
-const googleBtn = document.getElementById('google-login-btn');
-const githubBtn = document.getElementById('github-login-btn');
-if (googleBtn) googleBtn.addEventListener('click', () => socialSignIn('google'));
-if (githubBtn) githubBtn.addEventListener('click', () => socialSignIn('github'));
+if (googleLogin) googleLogin.addEventListener('click', () => socialSignIn('google'));
+if (githubLogin) githubLogin.addEventListener('click', () => socialSignIn('github'));
 
 // If already logged in, skip the login screen entirely.
 window.onload = async () => {
@@ -95,41 +100,9 @@ window.onload = async () => {
     if (error) {
         console.error(error.message);
         return;
-    }else{
-        console.log(data);
-        
     }
 
     if (data.session) {
         window.location.href = '/dashboard.html';
     }
 };
-
-if (googleLogin) {
-    googleLogin.addEventListener('click', async () => {
-        const { data, error } = await client.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-            redirectTo: 'https://mr-quiz-web.vercel.app/dashboard.html'
-        }
-        })
-        if (error) {
-            console.log(`Error: ${error.message}`);        
-        }
-    })
-}
-
-if (githubLogin) {
-    githubLogin.addEventListener('click', async () => {
-        const { data, error } = await client.auth.signInWithOAuth({
-            provider: 'github',
-            options: {
-                redirectTo: 'https://mr-quiz-web.vercel.app/dashboard.html'
-    }
-})
-if (error) {
-    console.log(`Error: ${error.message}`);
-    
-}
-})
-}
