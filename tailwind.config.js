@@ -7,6 +7,7 @@ module.exports = {
     "./leaderboard.html",
     "./signup.html",
     "./test.html",
+    "./settings.html",
     "./*.js"
   ],
   theme: {
