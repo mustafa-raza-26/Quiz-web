@@ -145,24 +145,25 @@ window.onload = async () => {
     if (error) {
         console.log(error.message);
         return;
-    }else{
+    } else {
         console.log(data);
-        
+
     }
-    
+
     var userDate = data.session
     console.log(userDate);
-    
+
 
     if (data.session === null) {
         window.location.href = "/index.html";
-    }else{
-        logoutBtn.innerHTML = `<i class="fas fa-sign-out-alt text-xl"></i>`
+    } else {
+        logoutBtnMobile.innerHTML = `<i class="fas fa-sign-out-alt text-xl"></i>`
     }
 
     let profileName = document.getElementById('userName');
     if (profileName && userDate) {
         profileName.innerHTML = `${userDate.user.user_metadata.full_name}`
+        logoutBtn.innerHTML = `<i class="fas fa-sign-out-alt text-xl"></i>`
     }
     let profileNameMobile = document.getElementById('userNameMobile');
     if (profileNameMobile && userDate) {
@@ -178,7 +179,7 @@ async function doLogout() {
     if (error) {
         alert(`Error: ${error.message}`)
         return;
-    }else{
+    } else {
         window.location.href = '/index.html'
     }
 }

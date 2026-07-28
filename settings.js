@@ -1,11 +1,9 @@
-// settings.js - Settings page behavior.
-// Plain (non-module) script, like categories.js/app.js, so it keeps working
-// even if this file is opened directly from disk. Reads/writes the same
-// localStorage keys storage.js uses, without needing an ES import.
+// settings.js - Settings page behavior & Supabase Auth integration
 
 const SETTINGS_KEY = 'quizflow_settings';
 const DEFAULT_SETTINGS = { sound: true, difficulty: 'medium' };
 
+// Local storage helper functions
 function getSettings() {
     try {
         return { ...DEFAULT_SETTINGS, ...JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}') };
@@ -18,18 +16,40 @@ function saveSettings(settings) {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
 }
 
-// ---------- Mobile/tablet hamburger menu ----------
+// ---------- Mobile navigation menu toggle ----------
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const mobileMenu = document.getElementById('mobile-menu');
+
 if (mobileMenuBtn && mobileMenu) {
     mobileMenuBtn.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
     });
 }
 
+// ---------- Mobile sidebar toggle ----------
+const sidebarToggle = document.getElementById('sidebar-toggle');
+const sidebarNav = document.querySelector('.sidebar-nav');
+
+if (sidebarToggle && sidebarNav) {
+    sidebarToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sidebarNav.classList.toggle('mobile-open');
+        document.querySelector('.page')?.classList.toggle('sidebar-open');
+    });
+
+    document.addEventListener('click', (e) => {
+        const target = e.target;
+        if (!sidebarNav.contains(target) && target !== sidebarToggle && sidebarNav.classList.contains('mobile-open')) {
+            sidebarNav.classList.remove('mobile-open');
+            document.querySelector('.page')?.classList.remove('sidebar-open');
+        }
+    });
+}
+
 // ---------- Preferences: sound toggle ----------
 const soundToggle = document.getElementById('soundToggle');
 function renderSound(settings) {
+    if (!soundToggle) return;
     if (settings.sound) {
         soundToggle.classList.add('on');
         soundToggle.setAttribute('aria-pressed', 'true');
@@ -38,6 +58,7 @@ function renderSound(settings) {
         soundToggle.setAttribute('aria-pressed', 'false');
     }
 }
+
 if (soundToggle) {
     soundToggle.addEventListener('click', () => {
         const settings = getSettings();
@@ -54,6 +75,7 @@ function renderDifficulty(settings) {
         pill.classList.toggle('active', pill.dataset.difficulty === settings.difficulty);
     });
 }
+
 difficultyPills.forEach(pill => {
     pill.addEventListener('click', () => {
         const settings = getSettings();
@@ -78,22 +100,44 @@ const confirmClearBtn = document.getElementById('confirm-clear');
 
 if (clearHistoryBtn) {
     clearHistoryBtn.addEventListener('click', () => {
-        clearModal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
+        if (clearModal) {
+            clearModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
     });
 }
+
 if (cancelClearBtn) {
     cancelClearBtn.addEventListener('click', () => {
-        clearModal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
+        if (clearModal) {
+            clearModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
     });
 }
+
 if (confirmClearBtn) {
     confirmClearBtn.addEventListener('click', () => {
         localStorage.removeItem('quizflow_leaderboard');
-        clearModal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
+        if (clearModal) {
+            clearModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
     });
+}
+
+// ---------- Profile: apply name to header/DOM ----------
+function applyName(name) {
+    const ids = ['userName', 'userNameMobile', 'settingsUserName'];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = name;
+    });
+
+    const avatarInitial = document.getElementById('avatarInitial');
+    if (avatarInitial && name) {
+        avatarInitial.textContent = name.charAt(0).toUpperCase();
+    }
 }
 
 // ---------- Profile: save name ----------
@@ -103,40 +147,56 @@ const nameInput = document.getElementById('nameInput');
 
 if (saveProfileBtn) {
     saveProfileBtn.addEventListener('click', async () => {
-        const newName = nameInput.value.trim();
+        const newName = nameInput ? nameInput.value.trim() : '';
         if (!newName) return;
 
-        const { error } = await client.auth.updateUser({
-            data: { full_name: newName }
-        });
+        if (typeof client !== 'undefined' && client.auth) {
+            const { error } = await client.auth.updateUser({
+                data: { full_name: newName }
+            });
 
+            if (error) {
+                alert(`Error: ${error.message}`);
+                return;
+            }
+        }
+
+        applyName(newName);
+        if (profileSavedMsg) {
+            profileSavedMsg.classList.remove('hidden');
+            setTimeout(() => profileSavedMsg.classList.add('hidden'), 2000);
+        }
+    });
+}
+
+// ---------- Session, profile display & logout ----------
+const logoutBtn = document.getElementById('logoutBtn');
+const logoutBtnMobile = document.getElementById('logoutBtnMobile');
+const logoutBtnSettings = document.getElementById('logoutBtnSettings');
+
+async function doLogout() {
+    const isConfirmed = confirm("Are you sure you want to log out?");
+    if (!isConfirmed) return;
+
+    if (typeof client !== 'undefined' && client.auth) {
+        const { error } = await client.auth.signOut({ scope: 'local' });
         if (error) {
             alert(`Error: ${error.message}`);
             return;
         }
-
-        applyName(newName);
-        profileSavedMsg.classList.remove('hidden');
-        setTimeout(() => profileSavedMsg.classList.add('hidden'), 2000);
-    });
+    }
+    window.location.href = '/index.html';
 }
 
-function applyName(name) {
-    const ids = ['userName', 'userNameMobile', 'settingsUserName'];
-    ids.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.innerHTML = name;
-    });
-    const avatarInitial = document.getElementById('avatarInitial');
-    if (avatarInitial && name) avatarInitial.textContent = name.charAt(0).toUpperCase();
-}
-
-// ---------- Session, profile display, logout ----------
-let logoutBtn = document.getElementById('logoutBtn');
-let logoutBtnMobile = document.getElementById('logoutBtnMobile');
-let logoutBtnSettings = document.getElementById('logoutBtnSettings');
+if (logoutBtn) logoutBtn.addEventListener('click', doLogout);
+if (logoutBtnMobile) logoutBtnMobile.addEventListener('click', doLogout);
+if (logoutBtnSettings) logoutBtnSettings.addEventListener('click', doLogout);
+let accountDetail = document.getElementById('accountDetails');
+let id
 
 window.onload = async () => {
+    if (typeof client === 'undefined' || !client.auth) return;
+
     const { data, error } = await client.auth.getSession();
 
     if (error) {
@@ -144,39 +204,29 @@ window.onload = async () => {
         return;
     }
 
-    const userDate = data.session;
+    const userData = data.session;
+    id = userData.user.id;
+    let fullName = userData.user.user_metadata.full_name || 'Alex Rivera';
+    let email = userData.user.email || '';
 
-    if (userDate === null) {
+
+    if (userData === null) {
         window.location.href = "/index.html";
-        return;
+    } else {
+        if (accountDetail) {
+            accountDetail.innerHTML = `
+                <h3>${fullName}</h3>
+                <h5>${email}</h5>
+            `
+        }
     }
-
-    const fullName = userDate.user.user_metadata.full_name || '';
-    const email = userDate.user.email || '';
-
     applyName(fullName);
-
-    const settingsUserEmail = document.getElementById('settingsUserEmail');
-    if (settingsUserEmail) settingsUserEmail.textContent = email;
-
-    if (nameInput) nameInput.value = fullName;
-    const emailInput = document.getElementById('emailInput');
-    if (emailInput) emailInput.value = email;
 };
 
-async function doLogout() {
-    const isConfirmed = confirm("Are you sure you want to log out?");
-    if (!isConfirmed) return;
-
-    const { error } = await client.auth.signOut({ scope: 'local' });
-    if (error) {
-        alert(`Error: ${error.message}`);
-        return;
-    } else {
-        window.location.href = '/index.html';
-    }
+let deleteAccount = document.getElementById('deleteAccount');
+if (deleteAccount) {
+    deleteAccount.addEventListener('click', async () => {
+        const isConfirmed = confirm("Are you sure you want to deactivate/delete your account? This action cannot be undone.");
+        if (!isConfirmed) return;
+    });
 }
-
-if (logoutBtn) logoutBtn.addEventListener('click', doLogout);
-if (logoutBtnMobile) logoutBtnMobile.addEventListener('click', doLogout);
-if (logoutBtnSettings) logoutBtnSettings.addEventListener('click', doLogout);

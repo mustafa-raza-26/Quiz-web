@@ -154,6 +154,7 @@ window.onload = async () => {
 
     if (data.session === null) {
         window.location.href = "/index.html";
+        return;
     }
 
     let profileName = document.getElementById('userName');
@@ -188,4 +189,3 @@ let logoutBtnMobile = document.getElementById('logoutBtnMobile');
 if (logoutBtnMobile) {
     logoutBtnMobile.addEventListener('click', doLogout);
 }
-

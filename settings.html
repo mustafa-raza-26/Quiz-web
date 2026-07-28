@@ -1,289 +1,139 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Settings | QuizFlow Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap"
-        rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="dist/output.css">
-    <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #0b1326;
-            color: #dae2fd;
-            overflow-x: hidden;
-        }
-
-        .glass-card {
-            background: rgba(11, 19, 38, 0.6);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
-        }
-
-        .gradient-button {
-            background: linear-gradient(135deg, #8083ff 0%, #6f00be 100%);
-            transition: all 200ms ease-out;
-        }
-
-        .gradient-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(128, 131, 255, 0.4);
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 24px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #2d3449;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked+.slider {
-            background: linear-gradient(135deg, #8083ff 0%, #6f00be 100%);
-        }
-
-        input:checked+.slider:before {
-            transform: translateX(20px);
-        }
-
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-    </style>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>QuizFlow | Settings</title>
+    <link rel="shortcut icon" href="./images/quizflow_favicon.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="settings.css">
 </head>
+<body class="bg-background text-on-surface font-body-lg min-h-screen flex flex-col selection:bg-primary/30">
 
-<body class="min-h-screen flex flex-col">
-    <!-- TopNavBar -->
-    <header
-        class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_32px_rgba(99,102,241,0.15)]">
-        <div class="max-w-container-max mx-auto px-gutter flex justify-between items-center h-20">
-            <div
-                class="text-headline-md font-headline-md font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+    <!-- Clean & Responsive Header -->
+    <header class="header-navbar">
+        <div class="header-container">
+            
+            <!-- LEFT: Brand Logo -->
+            <a class="logo" href="#">
                 QuizFlow
-            </div>
-            <nav class="hidden md:flex items-center space-x-8 font-body-lg text-body-lg">
-                <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200"
-                    href="./index.html">Dashboard</a>
-                <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200"
-                    href="./categories.html">Categories</a>
-                <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200"
-                    href="./leaderboard.html">Leaderboard</a>
-                <a class="text-primary font-bold relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary after:shadow-[0_0_8px_#8083ff]"
-                    href="#">Settings</a>
+            </a>
+
+            <!-- CENTER: Navigation Links (Desktop) -->
+            <nav class="nav-links">
+                <a class="active" href="#">Dashboard</a>
+                <a href="./categories.html">Categories</a>
+                <a href="./leaderboard.html">Leaderboard</a>
+                <a href="./settings.html">Settings</a>
             </nav>
-            <div class="flex items-center space-x-4">
-                <div
-                    class="hidden md:flex items-center gap-3 bg-white/5 py-1.5 pl-1.5 pl-4 pr-4 rounded-full glass-card border-white/10">
-                    <div class="hidden sm:block">
-                        <p class="text-label-caps font-label-caps text-on-surface leading-tight" id="userName">Alex
-                            Rivera</p>
-                    </div>
+
+            <!-- RIGHT: Profile Name & Logout -->
+            <div class="header-right">
+                <div class="user-profile">
+                    <span id="userName">Alex Rivera</span>
                 </div>
-                <abbr title="logout"
-                    class="hidden md:inline-block cursor-pointer p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95"
-                    id="logoutBtn">
-                    <span
-                        class="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors">logout</span>
-                </abbr>
-                <button id="mobile-menu-btn"
-                    class="md:hidden p-2 rounded-full hover:bg-white/5 transition-all duration-200 active:scale-95">
-                    <span class="material-symbols-outlined text-primary">menu</span>
+                <button title="Logout" class="logout-btn" id="logoutBtn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                </button>
+                
+                <!-- Mobile Hamburger Toggle Button -->
+                <button id="mobile-menu-btn" class="mobile-toggle">
+                    <span class="material-symbols-outlined">menu</span>
                 </button>
             </div>
+
         </div>
-        <div id="mobile-menu"
-            class="hidden md:hidden flex flex-col justify-evenly gap-4 px-gutter py-4 bg-surface/95 backdrop-blur-xl border-t border-white/10">
-            <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
-                href="./index.html">Dashboard</a>
-            <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
-                href="./categories.html">Categories</a>
-            <a class="text-on-surface-variant hover:text-on-surface transition-colors duration-200 font-body-lg text-body-lg"
-                href="./leaderboard.html">Leaderboard</a>
-            <a class="text-primary font-bold font-body-lg text-body-lg" href="#">Settings</a>
-            <div class="border-t border-white/10 pt-4 mt-2 flex items-center justify-between">
-                <p class="font-label-caps text-on-surface" id="userNameMobile">Alex Rivera</p>
-                <abbr title="logout" class="cursor-pointer" id="logoutBtnMobile">
-                    <span
-                        class="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors">logout</span>
-                </abbr>
-            </div>
+
+        <!-- Mobile Dropdown Navigation -->
+        <div id="mobile-menu" class="mobile-menu hidden">
+            <a href="#" class="active">Dashboard</a>
+            <a href="./categories.html">Categories</a>
+            <a href="./leaderboard.html">Leaderboard</a>
+            <a href="./settings.html">Settings</a>
         </div>
     </header>
-    <main class="flex-grow pt-32 pb-stack-lg relative overflow-hidden">
-        <!-- Background Animation -->
 
-        <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-12 gap-stack-md">
-            <!-- Sidebar -->
+    <div class="page">
+        <div>
+            <div class="sidebar-nav">
+                <a href="#" class="active"><span class="ic">👤</span> Account</a>
+            </div>
 
-            <!-- Content Area -->
-            <div class="space-y-8 md:col-span-12">
-                <!-- General Settings -->
-
-                <!-- Account Settings -->
-                <section class="glass-card rounded-xl p-stack-md">
-                    <h2 class="font-headline-md text-headline-md mb-stack-md text-primary">Account Settings</h2>
-                    <div class="flex p-5 items-center gap-6 mb-stack-md p-6 bg-white/5 rounded-xl border border-white/5">
-                        <div class="relative group">
-                            <div class="w-20 h-20 rounded-full border-2 border-primary overflow-hidden">
-                                <img class="w-full h-full object-cover"
-                                    data-alt="A close-up portrait of a professional modern user Alex Rivera, featuring vibrant indigo and violet ambient lighting reflecting off his face. The aesthetic is clean, premium, and focused, set against a blurred futuristic office background with glass partitions and soft bokeh effects."
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQsR1bkfWaN7nc273miusAmJAiBbrssp-5nqTOS-AFS_OyA-aWTst2_Ja1r-V2c5SAkcmn7Ak1mpGMAqg12Bolv9pJZtCADRhp6-Iw6_GPwY19c9v20qGyUGs1RAcCVOTLI7SO5_JoLDfnfCEbdjtWTWUdxaYaH-vx09Pm_rsbWOykm2UMXnDV-rXVKdhMUvmVz8Emes7VkgAqsRfScGoaZu_4BVA7crcXU5uwO4KmuIe_yBW0YvU">
-                            </div>
-                            <button
-                                class="absolute bottom-0 right-0 p-1.5 bg-primary text-on-primary rounded-full shadow-lg scale-90 group-hover:scale-100 transition-transform">
-                                <span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
-                            </button>
-                        </div>
-                        <div>
-                            <h3 class="font-headline-md text-headline-md" id="settingsUserName">Alex Rivera</h3>
-                            <p class="font-body-sm text-body-sm text-on-surface-variant">Premium Member since January
-                                2024</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap gap-4">
-                        <button class="gradient-button px-6 py-3 rounded-lg font-semibold flex items-center gap-2 text-white">
-                            <span class="material-symbols-outlined" data-icon="key">key</span>
-                            Change Password
-                        </button>
-                        <button
-                            class="px-6 py-3 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition-all font-semibold flex items-center gap-2">
-                            <span class="material-symbols-outlined" data-icon="mail">mail</span>
-                            Email Preferences
-                        </button>
-                    </div>
-                </section>
-                <!-- Notifications -->
-
-                <div class="flex justify-end pt-4">
-                    <button
-                        class="px-8 py-3 bg-error-container text-on-error-container hover:bg-on-error hover:text-white transition-all rounded-lg font-bold">
-                        Delete Account
-                    </button>
-                </div>
+            <div class="plan-card">
+                <div class="plan-label">PRO PLAN</div>
+                <div class="progress-track"><div class="progress-fill"></div></div>
+                <div class="plan-usage">750 / 1000 Responses this month</div>
+                <button class="btn-outline">Manage Plan</button>
             </div>
         </div>
-    </main>
-    <!-- Footer -->
-    <footer
-        class="w-full py-stack-lg mt-auto bg-surface-container-lowest/80 backdrop-blur-md border-t border-white/5">
-        <div
-            class="max-w-container-max mx-auto px-gutter flex flex-col md:flex-row justify-between items-center gap-stack-md">
-            <div class="text-body-lg font-bold text-primary">QuizFlow</div>
-            <div class="font-body-sm text-body-sm text-on-surface-variant text-center md:text-left">
-                © 2024 QuizFlow Premium. Elevate your intellect.
+
+        <main>
+            <section>
+                <h1>Account Settings</h1>
+                <p class="desc">Manage your profile and authentication details.</p>
+                <div class="card">
+                    <div class="account-body">
+                        <div class="account-top">
+                            <div class="profile-pic">
+                                <img src="https://i.pravatar.cc/144?img=13" alt="Alex Rivera">
+                                <div class="edit">✎</div>
+                            </div>
+                            <div class="accountDetails" id="accountDetails">ejduwdeyg</div>
+                        </div>
+                        <hr class="divider">
+                        <div class="account-actions">
+                            <button class="btn btn-danger" id="deleteAccount">⛔ Deactivate Account</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo">QuizFlow</div>
+                <p>The next-generation quiz platform powered by AI. Design, distribute, and analyze with speed.</p>
+                <div class="socials">
+                    <a href="#">𝕏</a>
+                    <a href="#">in</a>
+                </div>
             </div>
-            <div class="flex items-center space-x-6 font-body-sm text-body-sm">
-                <a class="text-on-surface-variant hover:text-tertiary transition-colors duration-200" href="#">Privacy
-                    Policy</a>
-                <a class="text-on-surface-variant hover:text-tertiary transition-colors duration-200" href="#">Terms
-                    of Service</a>
-                <a class="text-on-surface-variant hover:text-tertiary transition-colors duration-200"
-                    href="#">Contact Us</a>
-                <a class="text-on-surface-variant hover:text-tertiary transition-colors duration-200" href="#">Help
-                    Center</a>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <a href="#">Features</a>
+                <a href="#">Pricing</a>
+                <a href="#">Enterprise</a>
+                <a href="#">Case Studies</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="#">Documentation</a>
+                <a href="#">API Reference</a>
+                <a href="#">Support Center</a>
+                <a href="#">Security</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+                <a href="#">Compliance</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2024 QuizFlow AI Technologies Inc. All rights reserved.</div>
+            <div class="footer-bottom-right">
+                <span><span class="status-dot"></span>System Operational</span>
+                <span>English (US) ▾</span>
             </div>
         </div>
     </footer>
+
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="supabase.js"></script>
-    <script>
-        // Simple Micro-interactions for toggles
-        document.querySelectorAll('input[type="checkbox"]').forEach(toggle => {
-            toggle.addEventListener('change', function () {
-                // Haptic-like visual feedback
-                this.parentElement.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.parentElement.style.transform = 'scale(1)';
-                }, 100);
-            });
-        });
-
-        // Mobile/tablet hamburger menu toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuBtn && mobileMenu) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
-
-        // Session check + profile name (same pattern used across the app)
-        let logoutBtn = document.getElementById('logoutBtn');
-        let logoutBtnMobile = document.getElementById('logoutBtnMobile');
-
-        window.onload = async () => {
-            const { data, error } = await client.auth.getSession();
-
-            if (error) {
-                console.log(error.message);
-                return;
-            }
-
-            const userDate = data.session;
-
-            if (userDate === null) {
-                window.location.href = "/index.html";
-                return;
-            }
-
-            const fullName = userDate.user.user_metadata.full_name;
-            const ids = ['userName', 'userNameMobile', 'settingsUserName'];
-            ids.forEach(id => {
-                const el = document.getElementById(id);
-                if (el && fullName) el.innerHTML = fullName;
-            });
-        };
-
-        async function doLogout() {
-            const isConfirmed = confirm("Are you sure you want to log out?");
-            if (!isConfirmed) return;
-
-            const { error } = await client.auth.signOut({ scope: 'local' });
-            if (error) {
-                alert(`Error: ${error.message}`);
-                return;
-            } else {
-                window.location.href = '/index.html';
-            }
-        }
-
-        if (logoutBtn) logoutBtn.addEventListener('click', doLogout);
-        if (logoutBtnMobile) logoutBtnMobile.addEventListener('click', doLogout);
-    </script>
+    <script src="settings.js"></script>
 </body>
 </html>
